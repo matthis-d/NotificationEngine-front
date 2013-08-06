@@ -53,7 +53,7 @@ module.exports = function (grunt) {
                     '<%= yeoman.app %>/scripts/templates/*.mustache'
                 ],
                 tasks: ['mustache']
-            },
+            }
         },
         connect: {
             options: {
