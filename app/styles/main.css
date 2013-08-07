@@ -6,8 +6,17 @@ body {
 .affix {
     position: fixed;
     top: 80px;
+    width: 270px;
 }
 
 .affix-bottom {
     position: absolute;
+}
+
+.left-menu {
+    border: solid #eeeeee 1px;
+}
+
+#charts, #counts, #topics {
+    min-height: 400px;
 }

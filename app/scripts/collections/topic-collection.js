@@ -8,7 +8,10 @@ define([
     'use strict';
 
     var TopicCollection = Backbone.Collection.extend({
-        model: TopicModel
+        model: TopicModel,
+
+        url: 'http://localhost:8080/notificationengine-0.0.1-SNAPSHOT/topics.do'
+
     });
 
     return TopicCollection;

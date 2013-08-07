@@ -86,7 +86,7 @@ define([
             this.url += '?topic=' + topic;
 
             this.setObjectName('Raw Notification');
-            this.setRequestType('all');
+            this.setRequestType('for topic');
             this.setTopicName(topic);
 
             return this;
@@ -99,7 +99,7 @@ define([
             this.url += '?topic=' + topic;
 
             this.setObjectName('Raw Notification');
-            this.setRequestType('not processed');
+            this.setRequestType('not processed for topic');
             this.setTopicName(topic);
 
             return this;
@@ -135,7 +135,7 @@ define([
             this.url += '?topic=' + topic;
 
             this.setObjectName('Decorated Notification');
-            this.setRequestType('all');
+            this.setRequestType('for topic');
             this.setTopicName(topic);
 
             return this;
@@ -148,7 +148,7 @@ define([
             this.url += '?topic=' + topic;
 
             this.setObjectName('Decorated Notification');
-            this.setRequestType('not sent');
+            this.setRequestType('not sent for topic');
             this.setTopicName(topic);
 
             return this;

@@ -30,6 +30,7 @@ require.config({
         backbone: '../bower_components/backbone-amd/backbone',
         underscore: '../bower_components/underscore-amd/underscore',
         bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min',
-        marionette: '../bower_components/marionette/lib/backbone.marionette.min'
+        marionette: '../bower_components/marionette/lib/backbone.marionette.min',
+        mustache: '../bower_components/mustache/mustache'
     }
 });
