@@ -11,6 +11,7 @@ define([
     var CountCollection = Backbone.Collection.extend({
 
         model: CountModel
+        
     });
 
     return CountCollection;

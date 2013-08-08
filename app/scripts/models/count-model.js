@@ -56,6 +56,16 @@ define([
             this.set('objectName', objectName);
         },
 
+        getObjectAndCount: function() {
+
+            var objectAndCount = new Array();
+            objectAndCount.push(this.get('objectName'));
+            objectAndCount.push(this.get('count'));
+
+            return objectAndCount;
+
+        },
+
         countAllRawNotifications: function() {
 
             this.url = this.getApiUrl() + '/countAllRawNotifications.do';

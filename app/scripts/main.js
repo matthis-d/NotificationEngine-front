@@ -10,15 +10,14 @@ require([
     'collections/topic-collection',
     'views/counts-composite-view',
     'views/topics-composite-view',
+    'views/chart-view',
     'mustache',
     'bootstrap',
     'marionette',
     'templates'
-    
-], function ($, Backbone, App, CountModel, CountCollection, TopicCollection, CountsCompositeView, TopicsCompositeView, Mustache) {
-    Backbone.history.start();
 
-    console.log('hello');
+], function ($, Backbone, App, CountModel, CountCollection, TopicCollection, CountsCompositeView, TopicsCompositeView, ChartView, Mustache) {
+    Backbone.history.start();
 
     var apiUrl = 'http://localhost:8080/notificationengine-0.0.1-SNAPSHOT';
 
@@ -29,10 +28,10 @@ require([
         }
     });
 
-    Backbone.Marionette.Renderer.render = function(template, data){
+    Backbone.Marionette.Renderer.render = function (template, data) {
         //Use JST
         if (!JST[template]) throw "Template '" + template + "' not found!";
-        return Mustache.render(JST[template],data);
+        return Mustache.render(JST[template], data);
     };
 
     var allRawNotifs = new CountModel({
@@ -81,29 +80,52 @@ require([
             notProcessedRawNotifs.fetch(),
             notSentDecoratedNotifs.fetch(),
             deletedDecoratedNotifs.fetch()
-        ).done(function() {
+        ).done(function () {
 
-        var countCollection = new CountCollection(
-            [allRawNotifs, notProcessedRawNotifs,
-            allDecoratedNotifs, notSentDecoratedNotifs,
-            facturationRawNotifs, facturationDecoratedNotifs,
-            helpdeskRawNotifs, helpdeskDecoratedNotifs,
-            deletedDecoratedNotifs]
-        );
+            var countCollection = new CountCollection(
+                [allRawNotifs, notProcessedRawNotifs,
+                    allDecoratedNotifs, notSentDecoratedNotifs,
+                    facturationRawNotifs, facturationDecoratedNotifs,
+                    helpdeskRawNotifs, helpdeskDecoratedNotifs,
+                    deletedDecoratedNotifs]
+            );
 
-        var countsCompositeView = new CountsCompositeView({
-            collection: countCollection
+            var countProcessedNotifs = allRawNotifs.getCount() - notProcessedRawNotifs.getCount();
+
+            var processedRawNotifs = new CountModel({
+                count: countProcessedNotifs,
+                objectName: 'Processed Raw Notifs'
+            });
+
+            var rawNotifsForChart = new CountCollection([processedRawNotifs, notProcessedRawNotifs]);
+
+            var countsCompositeView = new CountsCompositeView({
+                collection: countCollection
+            });
+
+            var rawNotifsChartView = new ChartView();
+            rawNotifsChartView.drawChart(rawNotifsForChart, 'charts', 'Processed / Not Processed Raw Notifs');
+
+
+            var countSentDecoratedNotifs = allDecoratedNotifs.getCount() - notSentDecoratedNotifs.getCount();
+
+            var sentDecoratedNotifs = new CountModel({
+                count: countSentDecoratedNotifs,
+                objectName: 'Sent Decorated Notifs'
+            });
+
+            var decoratedNotifsForChart = new CountCollection([sentDecoratedNotifs, notSentDecoratedNotifs, deletedDecoratedNotifs]);
+            var decoratedNotifsChartView = new ChartView();
+            decoratedNotifsChartView.drawChart(decoratedNotifsForChart, 'charts2', 'Sent/Not Sent/Deleted Decorated Notifs');
+
+            App.counts.show(countsCompositeView);
+
         });
-
-        App.counts.show(countsCompositeView);
-
-
-    });
 
     var topics = new TopicCollection();
     topics.fetch();
 
-    topics.on('sync', function() {
+    topics.on('sync', function () {
 
         var topicsCompositeView = new TopicsCompositeView({
             collection: topics
@@ -112,7 +134,5 @@ require([
         App.topics.show(topicsCompositeView);
 
     });
-
-
 
 });

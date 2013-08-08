@@ -2,6 +2,8 @@
 
 require.config({
 
+    waitSeconds : 15,
+
     deps: ['main'],
 
     shim: {
@@ -31,6 +33,9 @@ require.config({
         underscore: '../bower_components/underscore-amd/underscore',
         bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min',
         marionette: '../bower_components/marionette/lib/backbone.marionette.min',
-        mustache: '../bower_components/mustache/mustache'
+        mustache: '../bower_components/mustache/mustache',
+        async: '../bower_components/requirejs-plugins/src/async',
+        goog: '../bower_components/requirejs-plugins/src/goog',
+        propertyParser: '../bower_components/requirejs-plugins/src/propertyParser'
     }
 });
