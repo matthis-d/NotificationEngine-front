@@ -59,7 +59,18 @@ define([
         getObjectAndCount: function() {
 
             var objectAndCount = new Array();
-            objectAndCount.push(this.get('objectName'));
+
+            var topicName = this.getTopicName();
+
+            var globalName = this.getRequestType() + ' ';
+            if(topicName != 'none') {
+                globalName += topicName + ' ';
+
+            } else {
+                globalName+= this.getObjectName();
+            }
+
+            objectAndCount.push(globalName);
             objectAndCount.push(this.get('count'));
 
             return objectAndCount;

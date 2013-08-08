@@ -118,6 +118,14 @@ require([
             var decoratedNotifsChartView = new ChartView();
             decoratedNotifsChartView.drawChart(decoratedNotifsForChart, 'charts2', 'Sent/Not Sent/Deleted Decorated Notifs');
 
+            var rawNotifsByTopicForChart = new CountCollection([helpdeskRawNotifs, facturationRawNotifs]);
+            var rawNotifsByTopicChartView = new ChartView();
+            rawNotifsByTopicChartView.drawChart(rawNotifsByTopicForChart, 'charts3', 'Facturation / Helpdesk raw notifs');
+
+            var decoratedNotifsByTopicForChart = new CountCollection([helpdeskDecoratedNotifs, facturationDecoratedNotifs]);
+            var decoratedNotifsByTopicChartView = new ChartView();
+            decoratedNotifsByTopicChartView.drawChart(decoratedNotifsByTopicForChart, 'charts4', 'Facturation / Helpdesk decorated notifs');
+
             App.counts.show(countsCompositeView);
 
         });
