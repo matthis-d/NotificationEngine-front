@@ -19,8 +19,6 @@ define([
         },
 
         getStatsForTopic: function(e) {
-            
-            console.log('getStatsForTopic()');
 
             e.preventDefault();
 
@@ -31,8 +29,6 @@ define([
         },
 
         showStatsForTopic: function(collection) {
-            
-            console.log('showStatsForTopic()');
 
             showStatsCallback(App.topicStatsLayout, 'results', collection);
 
