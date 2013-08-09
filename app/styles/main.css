@@ -16,6 +16,6 @@ body {
     border: solid #eeeeee 1px;
 }
 
-#charts, #counts, #topics {
-    min-height: 400px;
+.twitter-typeahead .tt-query, .twitter-typeahead .tt-hint {
+    padding: 7px;
 }

@@ -22,7 +22,7 @@ define([
             return levels;
         },
 
-        getLevelNumber: function(levelNumber) {
+        getLevel: function(levelNumber) {
 
             var levels = this.getLevels();
 
@@ -31,13 +31,35 @@ define([
             var result = levels[0];
 
             if(countSubTopics < levelNumber) {
-                result = levels[countSubTopics];
+                result = levels[countSubTopics-1];
 
             } else {
                 result = levels[levelNumber];
             }
 
             return result;
+        },
+
+        getParentLevel: function(levelNumber) {
+
+            var topics = new Array();
+
+            for(var i = 0; i<=levelNumber; i++) {
+                
+                if(i <= this.getLevels().length){
+
+                    topics.push(this.getLevel(i));
+                }
+
+            }
+
+            //This method is used to remove the undefined or '' values from the array
+            topics = _.compact(topics);
+
+            var result = topics.join('.');
+
+            return result;
+
         }
 
     });

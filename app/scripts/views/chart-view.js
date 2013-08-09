@@ -20,11 +20,7 @@ define([
                 array.push(countModel.getObjectAndCount());
             });
 
-            console.log(array);
-
             var data = google.visualization.arrayToDataTable(array);
-
-            console.log(data);
 
             return data;
 

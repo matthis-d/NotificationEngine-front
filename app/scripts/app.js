@@ -10,7 +10,8 @@ define([
     App.addRegions({
         counts: '#counts',
         topics: '#topics',
-        charts: '#charts'
+        charts: '#charts',
+        topicStats: '#topic-stats'
     });
 
     return App;

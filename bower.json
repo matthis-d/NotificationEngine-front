@@ -11,7 +11,9 @@
     "marionette": "~1.0.4",
     "bootstrap": "~3.0.0-rc1",
     "mustache": "~0.7.2",
-    "requirejs-plugins": "~1.0.2"
+    "requirejs-plugins": "~1.0.2",
+    "typeahead.js": "~0.9.3",
+    "typeahead.js-bootstrap.css": "*"
   },
   "devDependencies": {}
 }

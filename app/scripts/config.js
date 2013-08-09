@@ -24,6 +24,9 @@ require.config({
         marionette: {
             deps: ['backbone'],
             exports: 'Backbone.Marionette'
+        },
+        typeahead: {
+            deps: ['jquery', 'bootstrap']
         }
 
     },
@@ -36,6 +39,7 @@ require.config({
         mustache: '../bower_components/mustache/mustache',
         async: '../bower_components/requirejs-plugins/src/async',
         goog: '../bower_components/requirejs-plugins/src/goog',
-        propertyParser: '../bower_components/requirejs-plugins/src/propertyParser'
+        propertyParser: '../bower_components/requirejs-plugins/src/propertyParser',
+        typeahead: '../bower_components/typeahead.js/dist/typeahead.min'
     }
 });

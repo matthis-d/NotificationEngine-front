@@ -11,12 +11,15 @@ require([
     'views/counts-composite-view',
     'views/topics-composite-view',
     'views/chart-view',
+    'views/topic-stats-layout',
+    'views/topic-search-view',
     'mustache',
     'bootstrap',
+    'typeahead',
     'marionette',
     'templates'
 
-], function ($, Backbone, App, CountModel, CountCollection, TopicCollection, CountsCompositeView, TopicsCompositeView, ChartView, Mustache) {
+], function ($, Backbone, App, CountModel, CountCollection, TopicCollection, CountsCompositeView, TopicsCompositeView, ChartView, TopicStatsLayout, TopicSearchView, Mustache) {
     Backbone.history.start();
 
     var apiUrl = 'http://localhost:8080/notificationengine-0.0.1-SNAPSHOT';
@@ -42,22 +45,6 @@ require([
         apiUrl: apiUrl
     }).countAllDecoratedNotifications();
 
-    var facturationRawNotifs = new CountModel({
-        apiUrl: apiUrl
-    }).countRawNotificationsForTopic('facturation');
-
-    var facturationDecoratedNotifs = new CountModel({
-        apiUrl: apiUrl
-    }).countDecoratedNotificationsForTopic('facturation');
-
-    var helpdeskRawNotifs = new CountModel({
-        apiUrl: apiUrl
-    }).countRawNotificationsForTopic('helpdesk');
-
-    var helpdeskDecoratedNotifs = new CountModel({
-        apiUrl: apiUrl
-    }).countDecoratedNotificationsForTopic('helpdesk');
-
     var notProcessedRawNotifs = new CountModel({
         apiUrl: apiUrl
     }).countNotProcessedRawNotifications();
@@ -73,10 +60,6 @@ require([
 
     $.when(allRawNotifs.fetch(),
             allDecoratedNotifs.fetch(),
-            facturationRawNotifs.fetch(),
-            facturationDecoratedNotifs.fetch(),
-            helpdeskRawNotifs.fetch(),
-            helpdeskDecoratedNotifs.fetch(),
             notProcessedRawNotifs.fetch(),
             notSentDecoratedNotifs.fetch(),
             deletedDecoratedNotifs.fetch()
@@ -85,8 +68,6 @@ require([
             var countCollection = new CountCollection(
                 [allRawNotifs, notProcessedRawNotifs,
                     allDecoratedNotifs, notSentDecoratedNotifs,
-                    facturationRawNotifs, facturationDecoratedNotifs,
-                    helpdeskRawNotifs, helpdeskDecoratedNotifs,
                     deletedDecoratedNotifs]
             );
 
@@ -118,14 +99,6 @@ require([
             var decoratedNotifsChartView = new ChartView();
             decoratedNotifsChartView.drawChart(decoratedNotifsForChart, 'charts2', 'Sent/Not Sent/Deleted Decorated Notifs');
 
-            var rawNotifsByTopicForChart = new CountCollection([helpdeskRawNotifs, facturationRawNotifs]);
-            var rawNotifsByTopicChartView = new ChartView();
-            rawNotifsByTopicChartView.drawChart(rawNotifsByTopicForChart, 'charts3', 'Facturation / Helpdesk raw notifs');
-
-            var decoratedNotifsByTopicForChart = new CountCollection([helpdeskDecoratedNotifs, facturationDecoratedNotifs]);
-            var decoratedNotifsByTopicChartView = new ChartView();
-            decoratedNotifsByTopicChartView.drawChart(decoratedNotifsByTopicForChart, 'charts4', 'Facturation / Helpdesk decorated notifs');
-
             App.counts.show(countsCompositeView);
 
         });
@@ -134,6 +107,19 @@ require([
     topics.fetch();
 
     topics.on('sync', function () {
+
+        var topicStatsLayout = new TopicStatsLayout();
+
+        var topicSearchView = new TopicSearchView({
+            collection: topics
+        });
+
+        App.topicStats.show(topicSearchView);
+
+        console.log(App.topicStats);
+
+        topicStatsLayout.search.show(topicSearchView);
+
 
         var topicsCompositeView = new TopicsCompositeView({
             collection: topics
