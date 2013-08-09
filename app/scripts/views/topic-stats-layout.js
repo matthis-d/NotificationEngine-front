@@ -12,7 +12,7 @@ define([
 
         regions: {
             search: '#topic-search',
-            result: '#topic-results'
+            results: '#topic-results'
         }
 
     });

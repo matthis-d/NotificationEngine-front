@@ -13,16 +13,17 @@ require([
     'views/chart-view',
     'views/topic-stats-layout',
     'views/topic-search-view',
+    'callbacks/show-stats-callback',
     'mustache',
     'bootstrap',
     'typeahead',
     'marionette',
     'templates'
 
-], function ($, Backbone, App, CountModel, CountCollection, TopicCollection, CountsCompositeView, TopicsCompositeView, ChartView, TopicStatsLayout, TopicSearchView, Mustache) {
+], function ($, Backbone, App, CountModel, CountCollection, TopicCollection, CountsCompositeView, TopicsCompositeView, ChartView, TopicStatsLayout, TopicSearchView, showStatsCallback, Mustache) {
     Backbone.history.start();
 
-    var apiUrl = 'http://localhost:8080/notificationengine-0.0.1-SNAPSHOT';
+    App.apiUrl = 'http://localhost:8080/notificationengine-0.0.1-SNAPSHOT';
 
     $('.left-menu').affix({
         offset: {
@@ -38,23 +39,23 @@ require([
     };
 
     var allRawNotifs = new CountModel({
-        apiUrl: apiUrl
+        apiUrl: App.apiUrl
     }).countAllRawNotifications();
 
     var allDecoratedNotifs = new CountModel({
-        apiUrl: apiUrl
+        apiUrl: App.apiUrl
     }).countAllDecoratedNotifications();
 
     var notProcessedRawNotifs = new CountModel({
-        apiUrl: apiUrl
+        apiUrl: App.apiUrl
     }).countNotProcessedRawNotifications();
 
     var notSentDecoratedNotifs = new CountModel({
-        apiUrl: apiUrl
+        apiUrl: App.apiUrl
     }).countNotSentDecoratedNotifications();
 
     var deletedDecoratedNotifs = new CountModel({
-        apiUrl: apiUrl
+        apiUrl: App.apiUrl
     }).countDeletedDecoratedNotifications();
 
 
@@ -80,9 +81,9 @@ require([
 
             var rawNotifsForChart = new CountCollection([processedRawNotifs, notProcessedRawNotifs]);
 
-            var countsCompositeView = new CountsCompositeView({
+            /*var countsCompositeView = new CountsCompositeView({
                 collection: countCollection
-            });
+            });*/
 
             var rawNotifsChartView = new ChartView();
             rawNotifsChartView.drawChart(rawNotifsForChart, 'charts', 'Processed / Not Processed Raw Notifs');
@@ -99,7 +100,9 @@ require([
             var decoratedNotifsChartView = new ChartView();
             decoratedNotifsChartView.drawChart(decoratedNotifsForChart, 'charts2', 'Sent/Not Sent/Deleted Decorated Notifs');
 
-            App.counts.show(countsCompositeView);
+            //App.counts.show(countsCompositeView);
+
+            showStatsCallback(App,'counts',countCollection);
 
         });
 
@@ -108,18 +111,15 @@ require([
 
     topics.on('sync', function () {
 
-        var topicStatsLayout = new TopicStatsLayout();
+        App.topicStatsLayout = new TopicStatsLayout();
 
         var topicSearchView = new TopicSearchView({
             collection: topics
         });
 
-        App.topicStats.show(topicSearchView);
+        App.topicStats.show(App.topicStatsLayout);
 
-        console.log(App.topicStats);
-
-        topicStatsLayout.search.show(topicSearchView);
-
+        App.topicStatsLayout.search.show(topicSearchView);
 
         var topicsCompositeView = new TopicsCompositeView({
             collection: topics
