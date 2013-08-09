@@ -19,3 +19,7 @@ body {
 .twitter-typeahead .tt-query, .twitter-typeahead .tt-hint {
     padding: 7px;
 }
+
+#topic-stats {
+    min-height: 200px;
+}
