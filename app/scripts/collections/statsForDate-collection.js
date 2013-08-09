@@ -3,13 +3,13 @@
 define([
     'underscore',
     'backbone',
-    'models/statsForDate-model'
-], function (_, Backbone, StatsfordateModel) {
+    'models/statsForDays-model'
+], function (_, Backbone, StatsForDateModel) {
     'use strict';
 
-    var StatsfordateCollection = Backbone.Collection.extend({
-        model: StatsfordateModel
+    var StatsForDaysCollection = Backbone.Collection.extend({
+        model: StatsForDateModel
     });
 
-    return StatsfordateCollection;
+    return StatsForDaysCollection;
 });

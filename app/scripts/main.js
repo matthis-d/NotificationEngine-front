@@ -6,6 +6,7 @@ require([
     'backbone',
     'app',
     'models/count-model',
+    'models/statsForDays-model',
     'collections/count-collection',
     'collections/topic-collection',
     'views/counts-composite-view',
@@ -20,7 +21,13 @@ require([
     'marionette',
     'templates'
 
-], function ($, Backbone, App, CountModel, CountCollection, TopicCollection, CountsCompositeView, TopicsCompositeView, ChartView, TopicStatsLayout, TopicSearchView, showStatsCallback, Mustache) {
+], function ($, Backbone, App,
+             CountModel, StatsForDaysModel, CountCollection, TopicCollection,
+             CountsCompositeView, TopicsCompositeView, ChartView,
+             TopicStatsLayout, TopicSearchView,
+             showStatsCallback, Mustache) {
+
+
     Backbone.history.start();
 
     App.apiUrl = 'http://localhost:8080/notificationengine-0.0.1-SNAPSHOT';
@@ -81,10 +88,6 @@ require([
 
             var rawNotifsForChart = new CountCollection([processedRawNotifs, notProcessedRawNotifs]);
 
-            /*var countsCompositeView = new CountsCompositeView({
-                collection: countCollection
-            });*/
-
             var rawNotifsChartView = new ChartView();
             rawNotifsChartView.drawChart(rawNotifsForChart, 'charts', 'Processed / Not Processed Raw Notifs');
 
@@ -100,11 +103,32 @@ require([
             var decoratedNotifsChartView = new ChartView();
             decoratedNotifsChartView.drawChart(decoratedNotifsForChart, 'charts2', 'Sent/Not Sent/Deleted Decorated Notifs');
 
-            //App.counts.show(countsCompositeView);
-
             showStatsCallback(App,'counts',countCollection);
 
         });
+
+
+    var statsForDays = new StatsForDaysModel().countCreatedRawNotifications();
+
+    $.when(statsForDays.fetch()).done(function() {
+
+
+        var data = google.visualization.arrayToDataTable([
+            ['Year', 'Sales', 'Expenses'],
+            ['2004',  1000,      400],
+            ['2005',  1170,      460],
+            ['2006',  660,       1120],
+            ['2007',  1030,      540]
+        ]);
+
+        var options = {
+            title: 'Company Performance'
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('charts5'));
+        chart.draw(data, options);
+
+    });
 
     var topics = new TopicCollection();
     topics.fetch();
