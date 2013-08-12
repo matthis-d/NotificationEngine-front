@@ -3,12 +3,14 @@ define([
     'backbone',
     'app',
     'callbacks/get-counts-for-topic-callback',
+    'callbacks/get-counts-for-topic-date-callback',
     'callbacks/show-stats-callback',
+    'callbacks/show-charts-callback',
     'marionette',
     'typeahead',
     'templates'
 
-], function (_, Backbone, App, getCountsForTopicCallback, showStatsCallback) {
+], function (_, Backbone, App, getCountsForTopicCallback, getCountsForTopicAndDateCallback, showStatsCallback, showChartsCallback) {
 
     var TopicSearchView = Backbone.Marionette.ItemView.extend({
 
@@ -26,11 +28,19 @@ define([
 
             getCountsForTopicCallback(topic, this.showStatsForTopic);
 
+            getCountsForTopicAndDateCallback(topic, this.showChartsForTopic);
+
         },
 
         showStatsForTopic: function(collection) {
 
             showStatsCallback(App.topicStatsLayout, 'results', collection);
+
+        },
+
+        showChartsForTopic: function(collections) {
+
+            showChartsCallback(App.topicStatsLayout, 'charts', collections);
 
         },
 

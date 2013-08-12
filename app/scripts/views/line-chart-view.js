@@ -10,7 +10,7 @@ define([
 
         zoneId: 'charts',
 
-        //List of colections that will be displayed in the graph
+        //List of collections that will be displayed in the graph
         collections: [],
 
         createRow: function(index) {

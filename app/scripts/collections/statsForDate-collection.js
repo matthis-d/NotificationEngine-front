@@ -29,6 +29,22 @@ define([
 
         },
 
+        countRawNotificationsForLastDaysWithTopic: function(topic) {
+
+            this.url = App.apiUrl + '/countRawNotificationsForLastDaysWithTopic.do?days=30&topic=' + topic;
+            this.name = 'Created Raw Notifications'
+            return this;
+
+        },
+
+        countProcessedRawNotificationsForLastDaysWithTopic: function(topic) {
+
+            this.url = App.apiUrl + '/countProcessedRawNotificationsForLastDaysWithTopic.do?days=30&topic=' + topic;
+            this.name = 'Processed Raw Notifications'
+            return this;
+
+        },
+
         countCreatedDecoratedNotifications: function() {
 
             this.url = App.apiUrl + '/countCreatedDecoratedNotificationsForLastDays.do?days=30';
@@ -41,6 +57,22 @@ define([
 
             this.url = App.apiUrl + '/countSentDecoratedNotificationsForLastDays.do?days=30';
             this.name = 'Sent Decorated Notifications';
+            return this;
+
+        },
+
+        countCreatedDecoratedNotificationsForLastDaysWithTopic: function(topic) {
+
+            this.url = App.apiUrl + '/countCreatedDecoratedNotificationsForLastDaysWithTopic.do?days=30&topic=' + topic;
+            this.name = 'Created Decorated Notifications'
+            return this;
+
+        },
+
+        countSentDecoratedNotificationsForLastDaysWithTopic: function(topic) {
+
+            this.url = App.apiUrl + '/countSentDecoratedNotificationsForLastDaysWithTopic.do?days=30&topic=' + topic;
+            this.name = 'Sent Decorated Notifications'
             return this;
 
         },

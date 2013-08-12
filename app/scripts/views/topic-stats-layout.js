@@ -12,7 +12,8 @@ define([
 
         regions: {
             search: '#topic-search',
-            results: '#topic-results'
+            results: '#topic-results',
+            charts: '#topic-charts'
         }
 
     });
