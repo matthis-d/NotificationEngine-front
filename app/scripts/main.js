@@ -1,6 +1,8 @@
 /*global require*/
 'use strict';
 
+// TODO : do some refactoring with the "fetchAllModels" from countCollection
+
 require([
     'jquery',
     'backbone',
@@ -133,6 +135,32 @@ require([
     topics.fetch();
 
     topics.on('sync', function () {
+
+        //TODO : refactor this part with in a callback
+        
+        var mainTopics = topics.getMainTopicNames();
+
+        var allRawNotifsFromTopics = new CountCollection();
+
+        _.each(mainTopics, function(topic) {
+
+            var rawNotifs = new CountModel({
+                apiUrl: App.apiUrl
+            }).countRawNotificationsForTopic(topic);
+
+            allRawNotifsFromTopics.add(rawNotifs);
+
+        });
+        
+        $.when.apply($, allRawNotifsFromTopics.fetchAllModels()).done(function() {
+
+            var topicsPieChartView = new PieView();
+            topicsPieChartView.drawPie(allRawNotifsFromTopics, 'topics-repartition', 'Topics repartition');
+        });
+
+        // END OF TO-DO
+
+
 
         App.topicStatsLayout = new TopicStatsLayout();
 

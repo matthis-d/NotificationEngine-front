@@ -10,7 +10,21 @@ define([
     var TopicCollection = Backbone.Collection.extend({
         model: TopicModel,
 
-        url: 'http://localhost:8080/notificationengine-0.0.1-SNAPSHOT/topics.do'
+        url: 'http://localhost:8080/notificationengine-0.0.1-SNAPSHOT/topics.do',
+
+        getMainTopicNames: function() {
+
+            var topics = new Array();
+
+            this.each(function(topicModel) {
+
+                topics.push(topicModel.getLevel(0));
+
+            });
+
+            return _.uniq(topics);
+
+        }
 
     });
 

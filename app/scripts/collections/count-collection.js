@@ -10,7 +10,23 @@ define([
 
     var CountCollection = Backbone.Collection.extend({
 
-        model: CountModel
+        model: CountModel,
+
+        fetchAllModels: function() {
+
+            //We fetch all models from the collection and return an array of Deferred Objects
+
+            var fetches = [];
+
+            this.each(function(countModel) {
+
+                fetches.push(countModel.fetch());
+
+            });
+
+            return fetches;
+
+        }
         
     });
 
