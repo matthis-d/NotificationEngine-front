@@ -6,7 +6,7 @@ define([
 
 ], function (_, Backbone) {
 
-    var ChartView = Backbone.View.extend({
+    var PieView = Backbone.View.extend({
 
         zoneId: 'charts',
 
@@ -52,7 +52,7 @@ define([
             chart.draw(this.getData(), this.getOptions());
         },
 
-        drawChart: function(collection, zoneId, title) {
+        drawPie: function (collection, zoneId, title) {
 
             this.collection = collection;
             var options = {
@@ -67,6 +67,6 @@ define([
 
     });
 
-    return ChartView;
+    return PieView;
 
 });

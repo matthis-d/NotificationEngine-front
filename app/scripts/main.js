@@ -6,12 +6,14 @@ require([
     'backbone',
     'app',
     'models/count-model',
-    'models/statsForDays-model',
+    'models/statsForDate-model',
     'collections/count-collection',
     'collections/topic-collection',
+    'collections/statsForDate-collection',
     'views/counts-composite-view',
     'views/topics-composite-view',
-    'views/chart-view',
+    'views/pie-view',
+    'views/line-chart-view',
     'views/topic-stats-layout',
     'views/topic-search-view',
     'callbacks/show-stats-callback',
@@ -22,8 +24,8 @@ require([
     'templates'
 
 ], function ($, Backbone, App,
-             CountModel, StatsForDaysModel, CountCollection, TopicCollection,
-             CountsCompositeView, TopicsCompositeView, ChartView,
+             CountModel, StatsForDateModel, CountCollection, TopicCollection, StatsForDateCollection,
+             CountsCompositeView, TopicsCompositeView, PieView, LineChartView,
              TopicStatsLayout, TopicSearchView,
              showStatsCallback, Mustache) {
 
@@ -88,8 +90,8 @@ require([
 
             var rawNotifsForChart = new CountCollection([processedRawNotifs, notProcessedRawNotifs]);
 
-            var rawNotifsChartView = new ChartView();
-            rawNotifsChartView.drawChart(rawNotifsForChart, 'charts', 'Processed / Not Processed Raw Notifs');
+            var rawNotifsChartView = new PieView();
+            rawNotifsChartView.drawPie(rawNotifsForChart, 'charts', 'Processed / Not Processed Raw Notifs');
 
 
             var countSentDecoratedNotifs = allDecoratedNotifs.getCount() - notSentDecoratedNotifs.getCount();
@@ -100,35 +102,32 @@ require([
             });
 
             var decoratedNotifsForChart = new CountCollection([sentDecoratedNotifs, notSentDecoratedNotifs, deletedDecoratedNotifs]);
-            var decoratedNotifsChartView = new ChartView();
-            decoratedNotifsChartView.drawChart(decoratedNotifsForChart, 'charts2', 'Sent/Not Sent/Deleted Decorated Notifs');
+            var decoratedNotifsChartView = new PieView();
+            decoratedNotifsChartView.drawPie(decoratedNotifsForChart, 'charts2', 'Sent/Not Sent/Deleted Decorated Notifs');
 
             showStatsCallback(App,'counts',countCollection);
 
         });
 
+    var createdRowNotifsFor30days = new StatsForDateCollection().countCreatedRawNotifications();
+    var processedRowNotifsFor30days = new StatsForDateCollection().countProcessedRawNotifications();
+    var createdDecoratedNotifsFor30days = new StatsForDateCollection().countCreatedDecoratedNotifications();
+    var sentDecoratedNotifsFor30days = new StatsForDateCollection().countSentDecoratedNotifications();
 
-    var statsForDays = new StatsForDaysModel().countCreatedRawNotifications();
+    $.when(createdRowNotifsFor30days.fetch(),
+            processedRowNotifsFor30days.fetch(),
+            createdDecoratedNotifsFor30days.fetch(),
+            sentDecoratedNotifsFor30days.fetch()
+        ).done(function() {
 
-    $.when(statsForDays.fetch()).done(function() {
+        var data = [createdRowNotifsFor30days, processedRowNotifsFor30days,
+            createdDecoratedNotifsFor30days, sentDecoratedNotifsFor30days];
 
-
-        var data = google.visualization.arrayToDataTable([
-            ['Year', 'Sales', 'Expenses'],
-            ['2004',  1000,      400],
-            ['2005',  1170,      460],
-            ['2006',  660,       1120],
-            ['2007',  1030,      540]
-        ]);
-
-        var options = {
-            title: 'Company Performance'
-        };
-
-        var chart = new google.visualization.LineChart(document.getElementById('charts5'));
-        chart.draw(data, options);
+        var lineChartView = new LineChartView();
+        lineChartView.drawLineChart(data, 'charts5', 'Stats for last 30 days');
 
     });
+
 
     var topics = new TopicCollection();
     topics.fetch();
