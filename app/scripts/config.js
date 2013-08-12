@@ -32,8 +32,8 @@ require.config({
     },
     paths: {
         jquery: '../bower_components/jquery/jquery',
-        backbone: '../bower_components/backbone-amd/backbone',
-        underscore: '../bower_components/underscore-amd/underscore',
+        backbone: '../bower_components/backbone/backbone-min',
+        underscore: '../bower_components/underscore/underscore',
         bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min',
         marionette: '../bower_components/marionette/lib/backbone.marionette.min',
         mustache: '../bower_components/mustache/mustache',
