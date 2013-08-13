@@ -8,7 +8,8 @@ define([
 
         appRoutes: {
             'stats': 'stats',
-            'new-raw': 'createRawNotification'
+            'new-raw': 'createRawNotification',
+            '*page': 'stats'
         }
 
     });

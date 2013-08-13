@@ -16,8 +16,8 @@ define([
 
         template: 'topic-search',
 
-        events: {
-            'click .btn-primary': 'getStatsForTopic'
+        triggers: {
+            'click .btn-primary': 'topic-search:ok'
         },
 
         getStatsForTopic: function(e) {
@@ -34,13 +34,13 @@ define([
 
         showStatsForTopic: function(collection) {
 
-            showStatsCallback(App.topicStatsLayout, 'results', collection);
+            showStatsCallback(this.layout, 'results', collection);
 
         },
 
         showChartsForTopic: function(collections) {
 
-            showChartsCallback(App.topicStatsLayout, 'charts', collections);
+            showChartsCallback(this.layout, 'charts', collections);
 
         },
 
