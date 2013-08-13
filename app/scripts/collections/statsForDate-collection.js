@@ -3,9 +3,10 @@
 define([
     'underscore',
     'backbone',
-    'app',
-    'models/statsForDate-model'
-], function (_, Backbone, App, StatsForDateModel) {
+    'models/statsForDate-model',
+    'json!configPath/config.json'
+    
+], function (_, Backbone, StatsForDateModel, config) {
     'use strict';
 
     var StatsForDaysCollection = Backbone.Collection.extend({
@@ -15,7 +16,7 @@ define([
 
         countCreatedRawNotifications: function() {
 
-            this.url = App.apiUrl + '/countCreatedRawNotificationsForLastDays.do?days=30';
+            this.url = config.serverUrl + '/countCreatedRawNotificationsForLastDays.do?days=30';
             this.name = 'Created Row Notifications';
             return this;
 
@@ -23,7 +24,7 @@ define([
 
         countProcessedRawNotifications: function() {
 
-            this.url = App.apiUrl + '/countProcessedRawNotificationsForLastDays.do?days=30';
+            this.url = config.serverUrl + '/countProcessedRawNotificationsForLastDays.do?days=30';
             this.name = 'Processed Row Notifications';
             return this;
 
@@ -31,7 +32,7 @@ define([
 
         countRawNotificationsForLastDaysWithTopic: function(topic) {
 
-            this.url = App.apiUrl + '/countRawNotificationsForLastDaysWithTopic.do?days=30&topic=' + topic;
+            this.url = config.serverUrl + '/countRawNotificationsForLastDaysWithTopic.do?days=30&topic=' + topic;
             this.name = 'Created Raw Notifications'
             return this;
 
@@ -39,7 +40,7 @@ define([
 
         countProcessedRawNotificationsForLastDaysWithTopic: function(topic) {
 
-            this.url = App.apiUrl + '/countProcessedRawNotificationsForLastDaysWithTopic.do?days=30&topic=' + topic;
+            this.url = config.serverUrl + '/countProcessedRawNotificationsForLastDaysWithTopic.do?days=30&topic=' + topic;
             this.name = 'Processed Raw Notifications'
             return this;
 
@@ -47,7 +48,7 @@ define([
 
         countCreatedDecoratedNotifications: function() {
 
-            this.url = App.apiUrl + '/countCreatedDecoratedNotificationsForLastDays.do?days=30';
+            this.url = config.serverUrl + '/countCreatedDecoratedNotificationsForLastDays.do?days=30';
             this.name = 'Created Decorated Notifications';
             return this;
 
@@ -55,7 +56,7 @@ define([
 
         countSentDecoratedNotifications: function() {
 
-            this.url = App.apiUrl + '/countSentDecoratedNotificationsForLastDays.do?days=30';
+            this.url = config.serverUrl + '/countSentDecoratedNotificationsForLastDays.do?days=30';
             this.name = 'Sent Decorated Notifications';
             return this;
 
@@ -63,7 +64,7 @@ define([
 
         countCreatedDecoratedNotificationsForLastDaysWithTopic: function(topic) {
 
-            this.url = App.apiUrl + '/countCreatedDecoratedNotificationsForLastDaysWithTopic.do?days=30&topic=' + topic;
+            this.url = config.serverUrl + '/countCreatedDecoratedNotificationsForLastDaysWithTopic.do?days=30&topic=' + topic;
             this.name = 'Created Decorated Notifications'
             return this;
 
@@ -71,7 +72,7 @@ define([
 
         countSentDecoratedNotificationsForLastDaysWithTopic: function(topic) {
 
-            this.url = App.apiUrl + '/countSentDecoratedNotificationsForLastDaysWithTopic.do?days=30&topic=' + topic;
+            this.url = config.serverUrl + '/countSentDecoratedNotificationsForLastDaysWithTopic.do?days=30&topic=' + topic;
             this.name = 'Sent Decorated Notifications'
             return this;
 

@@ -2,10 +2,9 @@
 
 define([
     'underscore',
-    'backbone',
-    'app'
+    'backbone'
 
-], function (_, Backbone, App) {
+], function (_, Backbone) {
     'use strict';
 
     var StatsForDaysModel = Backbone.Model.extend({

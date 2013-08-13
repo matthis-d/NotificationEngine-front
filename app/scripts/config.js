@@ -39,7 +39,10 @@ require.config({
         mustache: '../bower_components/mustache/mustache',
         async: '../bower_components/requirejs-plugins/src/async',
         goog: '../bower_components/requirejs-plugins/src/goog',
+        text: '../bower_components/requirejs-text/text',
+        json: '../bower_components/requirejs-plugins/src/json',
         propertyParser: '../bower_components/requirejs-plugins/src/propertyParser',
-        typeahead: '../bower_components/typeahead.js/dist/typeahead.min'
+        typeahead: '../bower_components/typeahead.js/dist/typeahead.min',
+        configPath: '..'
     }
 });

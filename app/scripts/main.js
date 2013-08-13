@@ -31,10 +31,7 @@ require([
              TopicStatsLayout, TopicSearchView,
              showStatsCallback, Mustache) {
 
-
     Backbone.history.start();
-
-    App.apiUrl = 'http://localhost:8080/notificationengine-0.0.1-SNAPSHOT';
 
     $('.left-menu').affix({
         offset: {
@@ -49,25 +46,15 @@ require([
         return Mustache.render(JST[template], data);
     };
 
-    var allRawNotifs = new CountModel({
-        apiUrl: App.apiUrl
-    }).countAllRawNotifications();
+    var allRawNotifs = new CountModel().countAllRawNotifications();
 
-    var allDecoratedNotifs = new CountModel({
-        apiUrl: App.apiUrl
-    }).countAllDecoratedNotifications();
+    var allDecoratedNotifs = new CountModel().countAllDecoratedNotifications();
 
-    var notProcessedRawNotifs = new CountModel({
-        apiUrl: App.apiUrl
-    }).countNotProcessedRawNotifications();
+    var notProcessedRawNotifs = new CountModel().countNotProcessedRawNotifications();
 
-    var notSentDecoratedNotifs = new CountModel({
-        apiUrl: App.apiUrl
-    }).countNotSentDecoratedNotifications();
+    var notSentDecoratedNotifs = new CountModel().countNotSentDecoratedNotifications();
 
-    var deletedDecoratedNotifs = new CountModel({
-        apiUrl: App.apiUrl
-    }).countDeletedDecoratedNotifications();
+    var deletedDecoratedNotifs = new CountModel().countDeletedDecoratedNotifications();
 
 
     $.when(allRawNotifs.fetch(),
@@ -144,9 +131,7 @@ require([
 
         _.each(mainTopics, function(topic) {
 
-            var rawNotifs = new CountModel({
-                apiUrl: App.apiUrl
-            }).countRawNotificationsForTopic(topic);
+            var rawNotifs = new CountModel().countRawNotificationsForTopic(topic);
 
             allRawNotifsFromTopics.add(rawNotifs);
 

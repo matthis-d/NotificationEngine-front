@@ -2,15 +2,17 @@
 
 define([
     'underscore',
-    'backbone'
-], function (_, Backbone) {
+    'backbone',
+    'json!configPath/config.json'
+
+], function (_, Backbone, config) {
     'use strict';
 
     var CountModel = Backbone.Model.extend({
 
         defaults: {
             count: 0,
-            apiUrl: '',
+            apiUrl: config.serverUrl,
             objectName: 'Raw Notification',
             requestType: 'all',
             topicName: 'none'
@@ -25,7 +27,7 @@ define([
         },
 
         getApiUrl: function() {
-            return this.get('apiUrl');
+            return config.serverUrl;
         },
 
         setApiUrl: function(apiUrl) {
