@@ -7,6 +7,8 @@ require([
     'jquery',
     'backbone',
     'app',
+    'controllers/main-controller',
+    'routers/main-router',
     'models/count-model',
     'models/statsForDate-model',
     'collections/count-collection',
@@ -27,12 +29,16 @@ require([
     'marionette',
     'templates'
 
-], function ($, Backbone, App,
+], function ($, Backbone, App, MainController, MainRouter,
              CountModel, StatsForDateModel, CountCollection, TopicCollection, StatsForDateCollection,
              CountsCompositeView, TopicsCompositeView, PieView, LineChartView,
              TopicStatsLayout, TopicSearchView,
              showStatsCallback, Mustache,
              ErrorModel, ErrorView) {
+
+    var mainController = new MainController();
+
+    var mainRouter = new MainRouter({controller: mainController});
 
     Backbone.history.start();
 

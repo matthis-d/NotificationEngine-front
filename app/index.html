@@ -26,6 +26,28 @@
 
     </head>
     <body data-spy="scroll" data-target=".left-menu">
+
+        <div class="navbar navbar-fixed-top navbar-inverse">
+            <div class="container">
+
+                <!-- .navbar-toggle is used as the toggle for collapsed navbar content -->
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                <a class="navbar-brand" href="#">Notif Engine</a>
+
+                <div class="nav-collapse collapse navbar-responsive-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#/stats">Stats</a></li>
+                        <li><a href="#/new-raw">New raw notif</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         <div class="container">
             <div class="jumbotron">
 
@@ -35,7 +57,7 @@
 
             <div class="row">
 
-                <div class="col-lg-3">
+                <div class="col-lg-3 visible-lg">
                      <div class="left-menu">
                          <ul class="nav nav-stacked nav-pills" data-spy="affix" data-offset-top="200">
                              <li><a href="#counts">Counts</a></li>
