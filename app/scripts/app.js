@@ -8,6 +8,7 @@ define([
     var App = new Backbone.Marionette.Application();
 
     App.addRegions({
+        content: '.container > .row',
         counts: '#counts',
         topics: '#topics',
         charts: '#charts',

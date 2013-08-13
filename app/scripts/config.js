@@ -2,8 +2,6 @@
 
 require.config({
 
-    waitSeconds : 15,
-
     deps: ['main'],
 
     shim: {

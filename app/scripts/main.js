@@ -20,6 +20,8 @@ require([
     'views/topic-search-view',
     'callbacks/show-stats-callback',
     'mustache',
+    'models/error-model',
+    'views/error-view',
     'bootstrap',
     'typeahead',
     'marionette',
@@ -29,7 +31,8 @@ require([
              CountModel, StatsForDateModel, CountCollection, TopicCollection, StatsForDateCollection,
              CountsCompositeView, TopicsCompositeView, PieView, LineChartView,
              TopicStatsLayout, TopicSearchView,
-             showStatsCallback, Mustache) {
+             showStatsCallback, Mustache,
+             ErrorModel, ErrorView) {
 
     Backbone.history.start();
 
@@ -96,6 +99,17 @@ require([
 
             showStatsCallback(App,'counts',countCollection);
 
+        })
+        .fail(function() {
+
+            var errorModel = new ErrorModel();
+            errorModel.setMessage('The server is not available');
+
+            var errorView = new ErrorView({
+                model: errorModel
+            });
+
+            App.content.show(errorView);
         });
 
     var createdRowNotifsFor30days = new StatsForDateCollection().countCreatedRawNotifications();
@@ -162,6 +176,37 @@ require([
         });
 
         App.topics.show(topicsCompositeView);
+
+    });
+
+}, function () {
+
+
+    //Function called when there was an error while loading a dependency
+    require([
+        'jquery',
+        'backbone',
+        'app',
+        'models/error-model',
+        'views/error-view',
+        'mustache',
+        'marionette'
+
+    ], function ($, Backbone, App, ErrorModel, ErrorView, Mustache) {
+
+        Backbone.Marionette.Renderer.render = function (template, data) {
+            //Use JST
+            if (!JST[template]) throw "Template '" + template + "' not found!";
+            return Mustache.render(JST[template], data);
+        };
+
+        var errorModel = new ErrorModel();
+
+        var errorView = new ErrorView({
+            model: errorModel
+        });
+
+        App.content.show(errorView);
 
     });
 
