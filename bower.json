@@ -13,7 +13,8 @@
     "mustache": "~0.7.2",
     "requirejs-plugins": "~1.0.2",
     "typeahead.js": "~0.9.3",
-    "typeahead.js-bootstrap.css": "*"
+    "typeahead.js-bootstrap.css": "*",
+    "parsleyjs": "~1.1.17"
   },
   "devDependencies": {}
 }

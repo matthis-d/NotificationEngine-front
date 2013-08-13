@@ -15,6 +15,7 @@ define([
     'views/topic-search-view',
     'views/topics-composite-view',
     'views/topic-stats-layout',
+    'views/create-raw-notification-view',
     'callbacks/show-stats-callback',
     'callbacks/show-charts-callback',
     'callbacks/get-counts-for-topic-callback',
@@ -28,6 +29,7 @@ define([
              ErrorModel, ErrorView,
              PieView, LineChartView,
              TopicSearchView, TopicsCompositeView, TopicStatsLayout,
+             CreateRawNotificationView,
              showStatsCallback, showChartsCallback, getCountsForTopicCallback, getCountsForTopicAndDateCallback
     ) {
 
@@ -51,7 +53,18 @@ define([
 
         createRawNotification: function() {
 
-            App.content.show(new Backbone.Marionette.View());
+            var topics = new TopicCollection();
+            topics.fetch();
+
+            topics.on('sync', function () {
+
+                var createRawNotificationView = new CreateRawNotificationView({
+                    collection: topics
+                });
+
+                App.content.show(createRawNotificationView);
+            });
+
         },
 
         //Other functions

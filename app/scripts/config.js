@@ -25,6 +25,9 @@ require.config({
         },
         typeahead: {
             deps: ['jquery', 'bootstrap']
+        },
+        parsley: {
+            deps: ['jquery']
         }
 
     },
@@ -41,6 +44,7 @@ require.config({
         json: '../bower_components/requirejs-plugins/src/json',
         propertyParser: '../bower_components/requirejs-plugins/src/propertyParser',
         typeahead: '../bower_components/typeahead.js/dist/typeahead.min',
-        configPath: '..'
+        configPath: '..',
+        parsley: '../bower_components/parsleyjs/parsley'
     }
 });
