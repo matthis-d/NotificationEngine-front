@@ -205,17 +205,22 @@ define([
 
             layout.topics.show(topicsCompositeView);
 
+            // An event is triggered when the user clicks on "OK" new to topic-search
             topicSearchView.on('topic-search:ok', function(args) {
 
+                //args contains the view, its collection and its model
                 var view = args.view;
 
+                //we get the value of the input
                 var topic = view.$el.find('#topics-input').val();
 
+                //we get stats about this topic
                 getCountsForTopicCallback(topic, function(results) {
 
                     showStatsCallback(topicStatsLayout, 'results', results);
                 });
 
+                //display charts from this topic
                 getCountsForTopicAndDateCallback(topic, function(collections){
 
                     showChartsCallback(topicStatsLayout, 'charts', collections);

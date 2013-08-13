@@ -35,7 +35,6 @@ require([
 
 }, function () {
 
-
     //Function called when there was an error while loading a dependency
     require([
         'jquery',
