@@ -28,9 +28,14 @@ define([
 
             return _.uniq(topics);
 
+        },
+
+        comparator: function(model) {
+            return model.getName();
         }
 
     });
 
     return TopicCollection;
+
 });

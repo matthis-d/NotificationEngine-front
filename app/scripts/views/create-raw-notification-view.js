@@ -16,7 +16,8 @@ define([
         className: 'col-12 col-lm-12 col-sm-12',
 
         events: {
-            'submit form': 'createRawNotification'
+            'click #submit': 'createRawNotification',
+            'click #add-file': 'showOtherFileInput'
         },
 
         createRawNotification: function(e) {
@@ -41,18 +42,25 @@ define([
                 context.content = content;
                 context.date = stringDate;
 
-                var data = {};
-                data.topic = topic;
-                data.context = context;
+                var json = {};
+                json.topic = topic;
+                json.context = context;
 
-                data = JSON.stringify(data);
+                json = JSON.stringify(json);
+
+                var data = new FormData();
+                data.append('json', json);
+
+                data = this.getAllFiles(data);
 
                 $.ajax({
 
-                    url: config.serverUrl + '/rawNotification.do',
-                    type: 'PUT',
-                    contentType: 'application/json',
-                    data: data
+                    url: config.serverUrl + '/rawNotificationWithAttach.do',
+                    type: 'POST',
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false
 
                 }).done(function() {
 
@@ -69,6 +77,48 @@ define([
 
             }
 
+        },
+
+        getAllFiles: function(dataForm) {
+
+            var $fileInputs = this.$el.find('input:file');
+
+            $fileInputs.each(function(index, input) {
+
+                var file = input.files[0];
+                var fileName = $(input).val().split('\\').pop();
+
+                if(file) {
+
+                    dataForm.append('files[]', file, fileName);
+                }
+
+            });
+
+            return dataForm;
+
+        },
+
+        showOtherFileInput: function(e) {
+
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+
+            var fileInputsNumber = this.$el.find('input[type=file]').length;
+            
+            var $lastFileInput = this.$el.find('input[type=file]').last();
+            
+            var $lastFileFormGroup = $lastFileInput.parent().parent();
+
+            var elToAdd = '<div class="form-group">' +
+                '<label for="inputFile'+ fileInputsNumber +'" class="col-md-2 control-label">File ' + (fileInputsNumber+1) +'</label>' +
+                '<div class="col-md-10">' +
+                    '<input type="file" id="inputFile' + fileInputsNumber + '">' +
+                    '</div>' +
+                '</div>';
+
+            $lastFileFormGroup.after(elToAdd);
         },
 
         onRender: function() {
