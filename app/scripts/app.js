@@ -8,7 +8,7 @@ define([
     var App = new Backbone.Marionette.Application();
 
     App.addRegions({
-        content: '.container > .row'
+        content: '#main-content'
     });
 
     return App;

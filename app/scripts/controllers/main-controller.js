@@ -8,7 +8,10 @@ define([
     'collections/count-collection',
     'collections/statsForDate-collection',
     'collections/topic-collection',
+    'collections/selector-collection',
+    'collections/channel-collection',
     'models/error-model',
+    'models/selector-model',
     'views/error-view',
     'views/pie-view',
     'views/line-chart-view',
@@ -16,21 +19,28 @@ define([
     'views/topics-composite-view',
     'views/topic-stats-layout',
     'views/create-raw-notification-view',
+    'views/subscriptions-layout',
+    'views/selector-tabs-collection-view',
     'callbacks/show-stats-callback',
     'callbacks/show-charts-callback',
     'callbacks/get-counts-for-topic-callback',
     'callbacks/get-counts-for-topic-date-callback',
+    'routers/subscription-router',
+    'controllers/subscription-controller',
     'marionette',
     'templates'
 
 ], function ($, _, Backbone, App, AllStatsLayout,
              CountModel, CountCollection,
              StatsForDateCollection, TopicCollection,
-             ErrorModel, ErrorView,
+             SelectorCollection, ChannelCollection,
+             ErrorModel, SelectorModel, ErrorView,
              PieView, LineChartView,
              TopicSearchView, TopicsCompositeView, TopicStatsLayout,
              CreateRawNotificationView,
-             showStatsCallback, showChartsCallback, getCountsForTopicCallback, getCountsForTopicAndDateCallback
+             SubscriptionsLayout, SelectorTabsCollectionView,
+             showStatsCallback, showChartsCallback, getCountsForTopicCallback, getCountsForTopicAndDateCallback,
+             SubscriptionRouter, SubscriptionController
     ) {
 
     var MainController = Backbone.Marionette.Controller.extend({
@@ -63,6 +73,31 @@ define([
                 });
 
                 App.content.show(createRawNotificationView);
+            });
+
+        },
+
+        subscriptions: function() {
+
+            var subscriptionController = new SubscriptionController();
+
+            new SubscriptionRouter({controller: subscriptionController});
+
+            var subscriptionsLayout = new SubscriptionsLayout();
+
+            App.content.show(subscriptionsLayout);
+
+            var selectors = new SelectorCollection();
+            selectors.fetch();
+
+            selectors.on('sync', function() {
+
+                var selectorTabs = new SelectorTabsCollectionView({
+                    collection: selectors
+                });
+
+                subscriptionsLayout.tabTitles.show(selectorTabs);
+
             });
 
         },

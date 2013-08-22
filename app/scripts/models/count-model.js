@@ -187,6 +187,20 @@ define([
             this.setTopicName('none');
 
             return this;
+        },
+
+        countSubscriptionsForTopicAndSelector: function(topicName, selectorType) {
+
+            this.url = this.getApiUrl() + '/countAllSubscriptionsForTopic.do';
+            this.url += '?topic=' + topicName;
+            this.url += '&selector=' + selectorType;
+
+            this.setObjectName('Subscriptions');
+            this.setRequestType('for topic');
+            this.setTopicName(topicName);
+
+            return this;
+
         }
 
 

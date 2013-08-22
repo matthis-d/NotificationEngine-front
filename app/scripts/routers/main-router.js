@@ -9,6 +9,7 @@ define([
         appRoutes: {
             'stats': 'stats',
             'new-raw': 'createRawNotification',
+            'subscriptions': 'subscriptions',
             '*page': 'stats'
         }
 
