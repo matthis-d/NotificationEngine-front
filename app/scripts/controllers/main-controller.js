@@ -25,8 +25,6 @@ define([
     'callbacks/show-charts-callback',
     'callbacks/get-counts-for-topic-callback',
     'callbacks/get-counts-for-topic-date-callback',
-    'routers/subscription-router',
-    'controllers/subscription-controller',
     'marionette',
     'templates'
 
@@ -39,8 +37,7 @@ define([
              TopicSearchView, TopicsCompositeView, TopicStatsLayout,
              CreateRawNotificationView,
              SubscriptionsLayout, SelectorTabsCollectionView,
-             showStatsCallback, showChartsCallback, getCountsForTopicCallback, getCountsForTopicAndDateCallback,
-             SubscriptionRouter, SubscriptionController
+             showStatsCallback, showChartsCallback, getCountsForTopicCallback, getCountsForTopicAndDateCallback
     ) {
 
     var MainController = Backbone.Marionette.Controller.extend({
@@ -78,10 +75,6 @@ define([
         },
 
         subscriptions: function() {
-
-            var subscriptionController = new SubscriptionController();
-
-            new SubscriptionRouter({controller: subscriptionController});
 
             var subscriptionsLayout = new SubscriptionsLayout();
 

@@ -15,17 +15,13 @@ define([
 
         className: 'nav nav-tabs',
 
-        events: {
-            'click li a': 'selectTab'
-        },
+        selectTabFromType: function(selectorType) {
 
-        selectTab: function(e) {
-
-            var $target = $(e.currentTarget);
+            var $aToActivate = this.$el.find('a[href="#/subscriptions/' + selectorType + '"]').slice(0,1);
 
             this.$el.find('li').removeClass('active');
 
-            $target.parent().addClass('active');
+            $aToActivate.parent().addClass('active');
 
         }
 

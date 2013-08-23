@@ -32,9 +32,38 @@ define([
 
         comparator: function(model) {
             return model.getName();
+        },
+
+        getChildTopics: function(parentTopicName) {
+
+            var result = new Backbone.Collection();
+
+            this.each(function(topic) {
+
+                var topicName = topic.getName();
+
+                if(topicName.indexOf(parentTopicName) > -1) {
+                    result.add(topic);
+                }
+
+            });
+
+            return result;
+
         }
 
+
     });
+
+    //In order to avoid duplicated elements
+    TopicCollection.prototype.add = function(topic) {
+        var isDupe = this.any(function(_topic) {
+            return _topic.getName() === topic.getName();
+        });
+        if (isDupe) return;
+        Backbone.Collection.prototype.add.call(this, topic);
+
+    }
 
     return TopicCollection;
 

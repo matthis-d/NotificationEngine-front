@@ -196,8 +196,8 @@ define([
             this.url += '&selector=' + selectorType;
 
             this.setObjectName('Subscriptions');
-            this.setRequestType('for topic');
-            this.setTopicName(topicName);
+            this.setRequestType('for topic ' + topicName);
+            this.setTopicName('');
 
             return this;
 

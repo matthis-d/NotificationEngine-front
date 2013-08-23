@@ -1,0 +1,30 @@
+<div class="page-header">
+    <h1>New subscription</h1>
+</div>
+
+<form class="form-horizontal" data-validate="parsley">
+    <div class="form-group">
+        <label for="inputTopic" class="col-lg-2 control-label">Topic</label>
+        <div class="col-lg-10">
+            <input type="text" class="form-control" id="inputTopic" placeholder="Topic" data-required="true">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputName" class="col-lg-2 control-label">Name</label>
+        <div class="col-lg-10">
+            <input type="text" class="form-control" id="inputName" placeholder="Name" data-required="true">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputEmail" class="col-lg-2 control-label">Email address</label>
+        <div class="col-lg-10">
+            <input type="email" class="form-control" id="inputEmail" placeholder="your@email.com"
+                   data-required="true" data-type="email">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-offset-2 col-lg-10">
+            <button id="submit" class="btn btn-primary">Send</button>
+        </div>
+    </div>
+</form>

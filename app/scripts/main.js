@@ -7,12 +7,14 @@ require([
     'app',
     'controllers/main-controller',
     'routers/main-router',
+    'routers/subscription-router',
+    'controllers/subscription-controller',
     'mustache',
     'bootstrap',
     'marionette',
     'templates'
 
-], function ($, Backbone, App, MainController, MainRouter, Mustache) {
+], function ($, Backbone, App, MainController, MainRouter, SubscriptionRouter, SubscriptionController, Mustache) {
 
     Backbone.Marionette.Renderer.render = function (template, data) {
         //Use JST
@@ -23,6 +25,10 @@ require([
     var mainController = new MainController();
 
     var mainRouter = new MainRouter({controller: mainController});
+
+    var subscriptionController = new SubscriptionController();
+
+    new SubscriptionRouter({controller: subscriptionController});
 
     Backbone.history.start();
 
