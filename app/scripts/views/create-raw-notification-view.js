@@ -86,6 +86,7 @@ define([
             $fileInputs.each(function(index, input) {
 
                 var file = input.files[0];
+                //In order to remove fake path
                 var fileName = $(input).val().split('\\').pop();
 
                 if(file) {

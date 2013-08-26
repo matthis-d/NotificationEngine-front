@@ -28,6 +28,9 @@ require.config({
         },
         parsley: {
             deps: ['jquery']
+        },
+        dataTables: {
+            deps: ['jquery']
         }
 
     },
@@ -45,6 +48,8 @@ require.config({
         propertyParser: '../bower_components/requirejs-plugins/src/propertyParser',
         typeahead: '../bower_components/typeahead.js/dist/typeahead.min',
         configPath: '..',
-        parsley: '../bower_components/parsleyjs/parsley'
+        parsley: '../bower_components/parsleyjs/parsley',
+        dataTables: '../bower_components/datatables/media/js/jquery.dataTables',
+        dataTablesBootstrap: '../bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap'
     }
 });

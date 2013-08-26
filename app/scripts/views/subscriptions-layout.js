@@ -15,7 +15,8 @@ define([
             topicsForSelector: '#topics-for-selector',
             countsByTopic: '#counts-by-topic',
             topicRepartition: '#topics-repartition',
-            createSubscriptionForm: '#create-subscription-form'
+            createSubscriptionForm: '#create-subscription-form',
+            listSubscriptions : '#list-subscriptions'
         }
 
     });

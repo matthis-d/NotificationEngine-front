@@ -8,6 +8,7 @@ define([
     'collections/topic-collection',
     'collections/selector-collection',
     'collections/channel-collection',
+    'collections/subscription-collection',
     'models/selector-model',
     'views/pie-view',
     'views/topics-composite-view',
@@ -15,17 +16,18 @@ define([
     'views/subscriptions-layout',
     'views/selector-tabs-collection-view',
     'views/create-subscription-view',
+    'views/subscriptions-composite-view',
     'marionette',
     'templates'
 
 ], function ($, _, Backbone, App,
              CountModel, CountCollection,
              TopicCollection,
-             SelectorCollection, ChannelCollection,
+             SelectorCollection, ChannelCollection, SubscriptionCollection,
              SelectorModel,
              PieView,
              TopicsCompositeView, CountsCompositeView,
-             SubscriptionsLayout, SelectorTabsCollectionView, CreateSubscriptionView
+             SubscriptionsLayout, SelectorTabsCollectionView, CreateSubscriptionView, SubscriptionsCompositeView
     ) {
 
     var SubscriptionController = Backbone.Marionette.Controller.extend({
@@ -42,6 +44,8 @@ define([
 
             var allTopics = new TopicCollection();
 
+            var self = this;
+
             $.when(selectors.fetch(), channels.fetch(), allTopics.fetch()).done(function() {
 
                 var thisSelector = selectors.findWhere({
@@ -56,21 +60,7 @@ define([
                 selectorTabs.selectTabFromType(selectorType);
 
                 //Show topics for this selector
-                var topicsForSelector = channels.getTopicsForSelector(thisSelector);
-
-                var subTopics = new TopicCollection();
-                topicsForSelector.each(function(topic) {
-                    var topicName = topic.getName();
-
-                    var topicsToAdd = allTopics.getChildTopics(topicName);
-                    topicsToAdd.each(function(topicToAdd){
-                        subTopics.add(topicToAdd);
-                    });
-                });
-
-                subTopics.each(function(subTopic) {
-                    topicsForSelector.add(subTopic);
-                });
+                var topicsForSelector = self.getAllTopicsForSelector(channels, thisSelector, allTopics);
 
                 var topicsView = new TopicsCompositeView({
                     collection: topicsForSelector
@@ -118,9 +108,44 @@ define([
 
                 }
 
+                var subscriptionCollection = new SubscriptionCollection().getSubscriptionsForSelector(selectorType);
+
+                $.when(subscriptionCollection.fetch()).done(function() {
+
+                    var subscriptionsListView = new SubscriptionsCompositeView({
+                        collection: subscriptionCollection
+                    });
+
+                    subscriptionsLayout.listSubscriptions.show(subscriptionsListView);
+
+                });
+
             });
 
+        },
+
+        getAllTopicsForSelector: function(channelCollection, selectorModel, allTopics) {
+
+            var topicsForSelector = channelCollection.getTopicsForSelector(selectorModel);
+
+            var subTopics = new TopicCollection();
+            topicsForSelector.each(function(topic) {
+                var topicName = topic.getName();
+
+                var topicsToAdd = allTopics.getChildTopics(topicName);
+                topicsToAdd.each(function(topicToAdd){
+                    subTopics.add(topicToAdd);
+                });
+            });
+
+            subTopics.each(function(subTopic) {
+                topicsForSelector.add(subTopic);
+            });
+
+            return topicsForSelector;
+
         }
+
 
     });
 

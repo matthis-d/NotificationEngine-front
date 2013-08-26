@@ -52,7 +52,7 @@ define([
                 }).done(function() {
                     alert('Your subscription has been registered');
 
-                    Backbone.history.navigate('#/subscriptions/' + selectorType);
+                    Backbone.history.navigate('#/subscriptions/' + selectorType, true);
 
                 }).fail(function() {
                     alert('An issue occurred when saving the subscription');

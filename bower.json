@@ -14,7 +14,9 @@
     "requirejs-plugins": "~1.0.2",
     "typeahead.js": "~0.9.3",
     "typeahead.js-bootstrap.css": "*",
-    "parsleyjs": "~1.1.17"
+    "parsleyjs": "~1.1.17",
+    "datatables": "~1.9.4",
+    "datatables-plugins": "*"
   },
   "devDependencies": {}
 }
