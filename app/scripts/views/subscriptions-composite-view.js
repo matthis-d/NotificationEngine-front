@@ -4,7 +4,8 @@ define([
     'views/subscription-item-view',
     'marionette',
     'templates',
-    'dataTables'
+    'dataTables',
+    'dataTablesBootstrap'
 
 
 ], function (_, Backbone, SubscriptionItemView) {
@@ -21,7 +22,9 @@ define([
 
             var $subscriptionsTable = this.$el.find('#subscriptions-table');
 
-            $subscriptionsTable.dataTable();
+            var dataTable = $subscriptionsTable.dataTable({
+                'sPaginationType': 'bootstrap'
+            });
 
             $('.datatable').each(function(){
                 var datatable = $(this);
@@ -46,6 +49,8 @@ define([
                 var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_info]');
                 length_sel.css('margin-top', '18px')
             });
+
+            dataTable.extend
 
         }
 
