@@ -31,6 +31,9 @@ require.config({
         },
         dataTables: {
             deps: ['jquery']
+        },
+        dataTablesBootstrap: {
+            deps: ['jquery', 'dataTables']
         }
 
     },
