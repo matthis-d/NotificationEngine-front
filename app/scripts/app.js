@@ -4,6 +4,8 @@ define([
     'marionette'
 
 ], function (_, Backbone) {
+    
+    'use strict';
 
     var App = new Backbone.Marionette.Application();
 
