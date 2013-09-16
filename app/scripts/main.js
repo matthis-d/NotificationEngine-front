@@ -26,6 +26,11 @@ require([
         }
     });
 
+    $('#reload').click( function(e){
+        e.preventDefault();
+        window.location.reload();
+    });
+
     Backbone.Marionette.Renderer.render = function (template, data) {
         //Use JST
         if (!JST[template]) throw "Template '" + template + "' not found!";
