@@ -33,6 +33,7 @@ define([
                 var topic = $form.find('#inputTopic').val();
                 var subject = $form.find('#inputSubject').val();
                 var content = $form.find('#inputContent').val();
+                var urgent = $form.find('#inputUrgent').is(':checked');
                 var date = new Date();
 
                 var stringDate = this.dateToString(date);
@@ -41,6 +42,7 @@ define([
                 context.subject = subject;
                 context.content = content;
                 context.date = stringDate;
+                context.urgent = urgent;
 
                 var json = {};
                 json.topic = topic;
