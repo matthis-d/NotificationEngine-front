@@ -10,6 +10,7 @@ define([
             'stats': 'stats',
             'new-raw': 'createRawNotification',
             'subscriptions': 'subscriptions',
+            'sent-notifications': 'sentNotifications',
             '*page': 'stats'
         }
 

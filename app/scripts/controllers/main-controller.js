@@ -10,6 +10,7 @@ define([
     'collections/topic-collection',
     'collections/selector-collection',
     'collections/channel-collection',
+    'collections/realNotification-collection',
     'models/error-model',
     'models/selector-model',
     'views/error-view',
@@ -21,6 +22,8 @@ define([
     'views/create-raw-notification-view',
     'views/subscriptions-layout',
     'views/selector-tabs-collection-view',
+    'views/real-notifications-composite-view',
+    'views/real-notifications-collection-view',
     'callbacks/show-stats-callback',
     'callbacks/show-charts-callback',
     'callbacks/get-counts-for-topic-callback',
@@ -31,12 +34,13 @@ define([
 ], function ($, _, Backbone, App, AllStatsLayout,
              CountModel, CountCollection,
              StatsForDateCollection, TopicCollection,
-             SelectorCollection, ChannelCollection,
+             SelectorCollection, ChannelCollection, RealNotificationCollection,
              ErrorModel, SelectorModel, ErrorView,
              PieView, LineChartView,
              TopicSearchView, TopicsCompositeView, TopicStatsLayout,
              CreateRawNotificationView,
              SubscriptionsLayout, SelectorTabsCollectionView,
+             RealNotificationCompositeView, RealNotificationsCollectionView,
              showStatsCallback, showChartsCallback, getCountsForTopicCallback, getCountsForTopicAndDateCallback
     ) {
 
@@ -94,6 +98,29 @@ define([
             });
 
         },
+
+        sentNotifications: function() {
+
+            var realNotifications = new RealNotificationCollection();
+
+            $.when(realNotifications.fetch()).done(function() {
+
+                var realNotificationsListView = new RealNotificationCompositeView({
+                    collection: realNotifications
+                });
+
+                var realNotificationsDetailsView = new RealNotificationsCollectionView({
+                    collection: realNotifications
+                });
+
+                App.content.show(realNotificationsListView);
+
+                App.modals.show(realNotificationsDetailsView);
+
+            });
+
+        }
+,
 
         //Other functions
         showGlobalStatsAndCharts: function(layout) {
@@ -257,8 +284,6 @@ define([
             });
 
         }
-
-
 
     });
 

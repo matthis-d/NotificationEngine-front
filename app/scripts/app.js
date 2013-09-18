@@ -10,7 +10,8 @@ define([
     var App = new Backbone.Marionette.Application();
 
     App.addRegions({
-        content: '#main-content'
+        content: '#main-content',
+        modals: '#modals'
     });
 
     return App;
