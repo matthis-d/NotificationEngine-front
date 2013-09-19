@@ -1,6 +1,7 @@
 define([
     'underscore',
     'backbone',
+    'config',
     'marionette',
     'bootstrap',
     'templates'

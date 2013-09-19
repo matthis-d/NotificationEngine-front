@@ -1,10 +1,11 @@
 define([
     'underscore',
     'backbone',
+    'json!configPath/config.json',
     'marionette',
     'templates'
 
-], function (_, Backbone) {
+], function (_, Backbone, config) {
 
     var RealNotificationDetailView = Backbone.Marionette.ItemView.extend({
 
@@ -20,6 +21,12 @@ define([
                 'aria-labelledby': this.model.get('id'),
                 'aria-hidden': true
             }
+        },
+
+        onBeforeRender: function() {
+
+            this.model.set('serverUrl', config.serverUrl);
+
         }
 
     });

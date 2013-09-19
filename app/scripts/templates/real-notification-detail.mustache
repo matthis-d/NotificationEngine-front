@@ -6,6 +6,10 @@
         </div>
         <div class="modal-body">
             {{{notificationContent}}}
+            <br>
+            {{# filesAttached }}
+            <a class="btn btn-default" href="{{serverUrl}}/files/{{id}}/{{fileName}}" download>{{fileName}}</a>
+            {{/filesAttached}}
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>

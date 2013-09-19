@@ -53,6 +53,6 @@ require.config({
         configPath: '..',
         parsley: '../bower_components/parsleyjs/parsley',
         dataTables: '../bower_components/datatables/media/js/jquery.dataTables',
-        dataTablesBootstrap: '../bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap'
+        dataTablesBootstrap: 'lib/dataTables.bootstrap'
     }
 });

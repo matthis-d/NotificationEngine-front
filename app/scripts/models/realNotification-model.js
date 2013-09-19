@@ -17,7 +17,6 @@ define([
             },
             subject: 'Default notification',
             notificationContent: 'This is a default notification',
-            //TODO: create a collection for filesAttached
             filesAttached: []
         },
 

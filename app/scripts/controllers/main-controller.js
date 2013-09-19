@@ -11,6 +11,7 @@ define([
     'collections/selector-collection',
     'collections/channel-collection',
     'collections/realNotification-collection',
+    'collections/decoratedNotification-collection',
     'models/error-model',
     'models/selector-model',
     'views/error-view',
@@ -24,6 +25,7 @@ define([
     'views/selector-tabs-collection-view',
     'views/real-notifications-composite-view',
     'views/real-notifications-collection-view',
+    'views/decorated-notifications-composite-view',
     'callbacks/show-stats-callback',
     'callbacks/show-charts-callback',
     'callbacks/get-counts-for-topic-callback',
@@ -34,13 +36,14 @@ define([
 ], function ($, _, Backbone, App, AllStatsLayout,
              CountModel, CountCollection,
              StatsForDateCollection, TopicCollection,
-             SelectorCollection, ChannelCollection, RealNotificationCollection,
+             SelectorCollection, ChannelCollection, RealNotificationCollection, DecoratedNotificationCollection,
              ErrorModel, SelectorModel, ErrorView,
              PieView, LineChartView,
              TopicSearchView, TopicsCompositeView, TopicStatsLayout,
              CreateRawNotificationView,
              SubscriptionsLayout, SelectorTabsCollectionView,
              RealNotificationCompositeView, RealNotificationsCollectionView,
+             DecoratedNotificationCompositeView,
              showStatsCallback, showChartsCallback, getCountsForTopicCallback, getCountsForTopicAndDateCallback
     ) {
 
@@ -119,8 +122,23 @@ define([
 
             });
 
-        }
-,
+        },
+
+        decoratedNotifications: function() {
+
+            var decoratedNotifications = new DecoratedNotificationCollection();
+
+            $.when(decoratedNotifications.fetch()).done(function() {
+
+                var decoratedNotificationsListView = new DecoratedNotificationCompositeView({
+                    collection: decoratedNotifications
+                });
+
+                App.content.show(decoratedNotificationsListView);
+
+            });
+
+        },
 
         //Other functions
         showGlobalStatsAndCharts: function(layout) {

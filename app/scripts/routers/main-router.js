@@ -11,6 +11,7 @@ define([
             'new-raw': 'createRawNotification',
             'subscriptions': 'subscriptions',
             'sent-notifications': 'sentNotifications',
+            'decorated-notifications': 'decoratedNotifications',
             '*page': 'stats'
         }
 
