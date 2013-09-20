@@ -53,6 +53,8 @@ define([
         //Functions associated to a route
         stats: function() {
 
+            this.activateLink('stats');
+
             var allStatsLayout = new AllStatsLayout();
 
             App.content.show(allStatsLayout);
@@ -66,6 +68,8 @@ define([
         },
 
         createRawNotification: function() {
+
+            this.activateLink('new-raw');
 
             var topics = new TopicCollection();
             topics.fetch();
@@ -82,6 +86,8 @@ define([
         },
 
         subscriptions: function() {
+
+            this.activateLink('subscriptions');
 
             var subscriptionsLayout = new SubscriptionsLayout();
 
@@ -104,6 +110,8 @@ define([
 
         sentNotifications: function() {
 
+            this.activateLink('sent-notifications');
+
             var realNotifications = new RealNotificationCollection();
 
             $.when(realNotifications.fetch()).done(function() {
@@ -125,6 +133,8 @@ define([
         },
 
         decoratedNotifications: function() {
+
+            this.activateLink('decorated-notifications');
 
             var decoratedNotifications = new DecoratedNotificationCollection();
 
@@ -300,6 +310,18 @@ define([
                 });
 
             });
+
+        },
+
+        activateLink: function(route) {
+
+            var listElements = $.find('.nav li');
+            _.each(listElements, function(element) {
+                $(element).removeClass('active');
+            });
+
+            var link = $.find('.nav a[href="#/' + route + '"]');
+            $(link[0]).parent().slice(0,1).addClass('active');
 
         }
 
