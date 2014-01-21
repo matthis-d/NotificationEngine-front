@@ -21,7 +21,8 @@ define([
 
             e.preventDefault();
 
-            var wantToDelete = confirm('Do you really want to delete this token ? ');
+            var wantToDelete = confirm('Do you really want to delete this token ? '),
+                _this = this;
 
             if(wantToDelete) {
 
@@ -35,7 +36,8 @@ define([
                     url: url
 
                 }).done( function() {
-                    Backbone.history.navigate('#/tokens', true);
+                    _this.model.destroy();
+                    _this.remove();
                 })
                 .fail( function() {
                     alert('There was a mistake while deleting the token');

@@ -246,8 +246,25 @@ module.exports = function (grunt) {
                         '*.{ico,txt}',
                         '.htaccess',
                         'images/{,*/}*.{webp,gif}',
-                        '*.json'
+                        '*.json',
+                        'styles/fonts/{,*/}*.*'
                     ]
+                },{
+                    //Glyphicons in Bootstrap have to be copied when build
+                    expand: true,
+                    dot: true,
+                    flatten: true,  //Don't copy the source file tree
+                    cwd: '<%= yeoman.app %>',
+                    src: ['bower_components/bootstrap/dist/fonts/*.*'],
+                    dest: '<%= yeoman.dist %>/fonts'
+                },{
+                    //Datatables's images have to be copied when build
+                    expand: true,
+                    dot: true,
+                    flatten: true, //Don't copy the source file tree
+                    cwd: '<%= yeoman.app %>',
+                    src: ['bower_components/datatables/media/images/*.*'],
+                    dest: '<%= yeoman.dist %>/images'
                 }]
             }
         },

@@ -2,6 +2,8 @@
 
 require.config({
 
+    noGlobal: true,
+
     deps: ['main'],
 
     shim: {

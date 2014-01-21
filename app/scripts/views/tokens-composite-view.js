@@ -37,13 +37,10 @@ define([
 
         onRender: function() {
 
-            var $tokensTable = this.$el.find('#tokens-table');
-
-            console.log($tokensTable);
-
-            var dataTable = $tokensTable.dataTable({
-                'sPaginationType': 'bootstrap'
-            });
+            var $tokensTable = this.$el.find('#tokens-table'),
+                dataTable = $tokensTable.dataTable({
+                    'sPaginationType': 'bootstrap'
+                });
 
             $('.datatable').each(function(){
                 var datatable = $(this);
