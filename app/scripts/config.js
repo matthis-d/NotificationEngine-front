@@ -53,6 +53,7 @@ require.config({
         configPath: '..',
         parsley: '../bower_components/parsleyjs/parsley',
         dataTables: '../bower_components/datatables/media/js/jquery.dataTables',
-        dataTablesBootstrap: 'lib/dataTables.bootstrap'
+        dataTablesBootstrap: 'lib/dataTables.bootstrap',
+        moment: '../bower_components/momentjs/min/moment-with-langs.min'
     }
 });

@@ -13,11 +13,11 @@ define([
 
         model: SelectorModel,
 
-        url: function() {
+        url: function () {
             return config.serverUrl + '/getSelectors.do';
         },
 
-        getWriteEnabledSelectors: function() {
+        getWriteEnabledSelectors: function () {
             return this.where({isSelectorWriteEnabled: true});
         }
         

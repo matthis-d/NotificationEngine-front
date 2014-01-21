@@ -13,7 +13,7 @@ define([
 
         model: SubscriptionModel,
 
-        getSubscriptionsForSelector: function(selectorType) {
+        getSubscriptionsForSelector: function (selectorType) {
 
             this.url = config.serverUrl + '/getSubscriptions.do?selector=' + selectorType;
 

@@ -14,7 +14,7 @@ define([
 
         name: 'Created Row Notifications',
 
-        countCreatedRawNotifications: function() {
+        countCreatedRawNotifications: function () {
 
             this.url = config.serverUrl + '/countCreatedRawNotificationsForLastDays.do?days=30';
             this.name = 'Created Row Notifications';
@@ -22,7 +22,7 @@ define([
 
         },
 
-        countProcessedRawNotifications: function() {
+        countProcessedRawNotifications: function () {
 
             this.url = config.serverUrl + '/countProcessedRawNotificationsForLastDays.do?days=30';
             this.name = 'Processed Row Notifications';
@@ -30,23 +30,23 @@ define([
 
         },
 
-        countRawNotificationsForLastDaysWithTopic: function(topic) {
+        countRawNotificationsForLastDaysWithTopic: function (topic) {
 
             this.url = config.serverUrl + '/countRawNotificationsForLastDaysWithTopic.do?days=30&topic=' + topic;
-            this.name = 'Created Raw Notifications'
+            this.name = 'Created Raw Notifications';
             return this;
 
         },
 
-        countProcessedRawNotificationsForLastDaysWithTopic: function(topic) {
+        countProcessedRawNotificationsForLastDaysWithTopic: function (topic) {
 
             this.url = config.serverUrl + '/countProcessedRawNotificationsForLastDaysWithTopic.do?days=30&topic=' + topic;
-            this.name = 'Processed Raw Notifications'
+            this.name = 'Processed Raw Notifications';
             return this;
 
         },
 
-        countCreatedDecoratedNotifications: function() {
+        countCreatedDecoratedNotifications: function () {
 
             this.url = config.serverUrl + '/countCreatedDecoratedNotificationsForLastDays.do?days=30';
             this.name = 'Created Decorated Notifications';
@@ -54,7 +54,7 @@ define([
 
         },
 
-        countSentDecoratedNotifications: function() {
+        countSentDecoratedNotifications: function () {
 
             this.url = config.serverUrl + '/countSentDecoratedNotificationsForLastDays.do?days=30';
             this.name = 'Sent Decorated Notifications';
@@ -62,23 +62,23 @@ define([
 
         },
 
-        countCreatedDecoratedNotificationsForLastDaysWithTopic: function(topic) {
+        countCreatedDecoratedNotificationsForLastDaysWithTopic: function (topic) {
 
             this.url = config.serverUrl + '/countCreatedDecoratedNotificationsForLastDaysWithTopic.do?days=30&topic=' + topic;
-            this.name = 'Created Decorated Notifications'
+            this.name = 'Created Decorated Notifications';
             return this;
 
         },
 
-        countSentDecoratedNotificationsForLastDaysWithTopic: function(topic) {
+        countSentDecoratedNotificationsForLastDaysWithTopic: function (topic) {
 
             this.url = config.serverUrl + '/countSentDecoratedNotificationsForLastDaysWithTopic.do?days=30&topic=' + topic;
-            this.name = 'Sent Decorated Notifications'
+            this.name = 'Sent Decorated Notifications';
             return this;
 
         },
 
-        comparator: function(model) {
+        comparator: function (model) {
             return model.getDate();
         }
     });

@@ -5,6 +5,7 @@ define([
     'templates'
 
 ], function (_, Backbone) {
+    'use strict';
 
     var CountItemView = Backbone.Marionette.ItemView.extend({
 

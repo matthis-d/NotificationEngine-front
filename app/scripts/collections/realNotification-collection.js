@@ -13,13 +13,13 @@ define([
 
         model: RealNotificationModel,
 
-        url: function() {
+        url: function () {
             return config.serverUrl + '/physicalNotifications.do';
         },
 
-        getNotificationsForEmail: function(email) {
+        getNotificationsForEmail: function (email) {
 
-            this.url = function() {
+            this.url = function () {
                 return config.serverUrl + '/physicalNotifications.do?email=' + email;
             };
 

@@ -7,7 +7,8 @@ define([
     'typeahead',
     'parsley'
 
-], function($, _, Backbone, config) {
+], function ($, _, Backbone, config) {
+    'use strict';
 
     var CreateRawNotificationView = Backbone.Marionette.ItemView.extend({
 
@@ -20,7 +21,7 @@ define([
             'click #add-file': 'showOtherFileInput'
         },
 
-        createRawNotification: function(e) {
+        createRawNotification: function (e) {
 
             e.preventDefault();
 
@@ -28,29 +29,28 @@ define([
 
             $form.parsley();
 
-            if($form.parsley('isValid')) {
+            if ($form.parsley('isValid')) {
 
-                var topic = $form.find('#inputTopic').val();
-                var subject = $form.find('#inputSubject').val();
-                var content = $form.find('#inputContent').val();
-                var urgent = $form.find('#inputUrgent').is(':checked');
-                var date = new Date();
-
-                var stringDate = this.dateToString(date);
-
-                var context = {};
+                var topic = $form.find('#inputTopic').val(),
+                    subject = $form.find('#inputSubject').val(),
+                    content = $form.find('#inputContent').val(),
+                    urgent = $form.find('#inputUrgent').is(':checked'),
+                    date = new Date(),
+                    stringDate = this.dateToString(date),
+                    context = {},
+                    json = {},
+                    data = new FormData();
+                
                 context.subject = subject;
                 context.content = content;
                 context.date = stringDate;
                 context.urgent = urgent;
 
-                var json = {};
                 json.topic = topic;
                 json.context = context;
 
                 json = JSON.stringify(json);
 
-                var data = new FormData();
                 data.append('json', json);
 
                 data = this.getAllFiles(data);
@@ -64,12 +64,11 @@ define([
                     contentType: false,
                     processData: false
 
-                }).done(function() {
+                }).done(function () {
 
                     Backbone.history.navigate('#/stats');
 
-                })
-                .fail(function() {
+                }).fail(function () {
                     alert('There was a mistake while sending data');
                 });
 
@@ -81,17 +80,17 @@ define([
 
         },
 
-        getAllFiles: function(dataForm) {
+        getAllFiles: function (dataForm) {
 
             var $fileInputs = this.$el.find('input:file');
 
-            $fileInputs.each(function(index, input) {
+            $fileInputs.each(function (index, input) {
 
-                var file = input.files[0];
+                var file = input.files[0],
                 //In order to remove fake path
-                var fileName = $(input).val().split('\\').pop();
+                    fileName = $(input).val().split('\\').pop();
 
-                if(file) {
+                if (file) {
 
                     dataForm.append('files[]', file, fileName);
                 }
@@ -102,34 +101,32 @@ define([
 
         },
 
-        showOtherFileInput: function(e) {
+        showOtherFileInput: function (e) {
 
             e.preventDefault();
             e.stopPropagation();
             e.stopImmediatePropagation();
 
-            var fileInputsNumber = this.$el.find('input[type=file]').length;
-            
-            var $lastFileInput = this.$el.find('input[type=file]').last();
-            
-            var $lastFileFormGroup = $lastFileInput.parent().parent();
-
-            var elToAdd = '<div class="form-group">' +
-                '<label for="inputFile'+ fileInputsNumber +'" class="col-md-2 control-label">File ' + (fileInputsNumber+1) +'</label>' +
-                '<div class="col-md-10">' +
-                    '<input type="file" id="inputFile' + fileInputsNumber + '">' +
-                    '</div>' +
-                '</div>';
+            var fileInputsNumber = this.$el.find('input[type=file]').length,
+                $lastFileInput = this.$el.find('input[type=file]').last(),
+                $lastFileFormGroup = $lastFileInput.parent().parent(),
+                elToAdd = '<div class="form-group">' +
+                    '<label for="inputFile' + fileInputsNumber + '" class="col-md-2 control-label">File ' + (fileInputsNumber + 1) + '</label>' +
+                    '<div class="col-md-10">' +
+                        '<input type="file" id="inputFile' + fileInputsNumber + '">' +
+                        '</div>' +
+                    '</div>';
 
             $lastFileFormGroup.after(elToAdd);
         },
 
         onRender: function() {
 
-            var allTopics = new Array();
+            var allTopics = [],
+                i = 0;
 
-            for(var i = 0; i<5; i++) {
-                this.collection.each(function(topic){
+            for (i = 0; i < 5; i++) {
+                this.collection.each(function (topic) {
                     allTopics.push(topic.getParentLevel(i));
                 });
             }
@@ -143,7 +140,7 @@ define([
 
         },
 
-        dateToString: function(date) {
+        dateToString: function (date) {
 
             var result = '';
 

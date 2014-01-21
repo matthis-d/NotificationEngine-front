@@ -14,11 +14,11 @@ define([
             isSelectorWriteEnabled: false
         },
 
-        getSelectorType: function() {
+        getSelectorType: function () {
             return this.get('selectorType');
         },
 
-        getIsSelectorWriteEnabled: function() {
+        getIsSelectorWriteEnabled: function () {
             return this.get('isSelectorWriteEnabled');
         }
 

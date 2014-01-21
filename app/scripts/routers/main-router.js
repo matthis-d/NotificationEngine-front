@@ -3,6 +3,7 @@ define([
     'marionette'
 
 ], function (Backbone) {
+    'use strict';
 
     var MainRouter = Backbone.Marionette.AppRouter.extend({
 
@@ -12,6 +13,7 @@ define([
             'subscriptions': 'subscriptions',
             'sent-notifications': 'sentNotifications',
             'decorated-notifications': 'decoratedNotifications',
+            'tokens': 'tokens',
             '*page': 'stats'
         }
 

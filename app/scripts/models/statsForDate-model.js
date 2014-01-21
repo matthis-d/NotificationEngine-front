@@ -13,30 +13,29 @@ define([
             count: 0
         },
 
-        parse: function(response) {
+        parse: function (response) {
 
-            var result = response;
-
-            var stringDate = response.date;
-            var arrayDate = stringDate.split('-');
+            var result = response,
+                stringDate = response.date,
+                arrayDate = stringDate.split('-');
 
             //In the month, because of JavaScript date month, we have to put -1 to get the real month
-            result.date = new Date(arrayDate[0], arrayDate[1]-1, arrayDate[2]);
+            result.date = new Date(arrayDate[0], arrayDate[1] - 1, arrayDate[2]);
 
             return result;
         },
 
-        getDate: function() {
+        getDate: function () {
             return this.get('date');
         },
 
-        getDateToString: function() {
+        getDateToString: function () {
 
             return this.getDate().toLocaleDateString();
 
         },
 
-        getCount: function() {
+        getCount: function () {
 
             return this.get('count');
         }

@@ -20,15 +20,12 @@ define([
             filesAttached: []
         },
 
-        parse: function(response) {
+        parse: function (response) {
 
-            var model = response;
-
-            var sentAtTime = model.sentAt;
-
-            var sentAtDate = new Date(sentAtTime);
-
-            var sentAtString = sentAtDate.toLocaleDateString();
+            var model = response,
+                sentAtTime = model.sentAt,
+                sentAtDate = new Date(sentAtTime),
+                sentAtString = sentAtDate.toLocaleDateString();
 
             model.sentAt = sentAtString;
 
@@ -36,31 +33,31 @@ define([
 
         },
 
-        getRecipient: function() {
+        getRecipient: function () {
             return this.get('recipient');
         },
 
-        getDisplayName: function() {
+        getDisplayName: function () {
             return this.getRecipient().displayName;
         },
 
-        getEmail: function() {
+        getEmail: function () {
             return this.getRecipient().email;
         },
 
-        getSentAt: function() {
+        getSentAt: function () {
             return this.get('sentAt');
         },
 
-        getSubject: function() {
+        getSubject: function () {
             return this.get('subject');
         },
 
-        getNotificationContent: function() {
+        getNotificationContent: function () {
             return this.get('notificationContent');
         },
 
-        getFilesAttached: function() {
+        getFilesAttached: function () {
             return this.get('filesAttached');
         }
 

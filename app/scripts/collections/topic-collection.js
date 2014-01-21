@@ -12,15 +12,15 @@ define([
     var TopicCollection = Backbone.Collection.extend({
         model: TopicModel,
 
-        url: function() {
+        url: function () {
             return config.serverUrl + '/topics.do';
         },
 
-        getMainTopicNames: function() {
+        getMainTopicNames: function () {
 
-            var topics = new Array();
+            var topics = [];
 
-            this.each(function(topicModel) {
+            this.each(function (topicModel) {
 
                 topics.push(topicModel.getLevel(0));
 
@@ -30,15 +30,15 @@ define([
 
         },
 
-        comparator: function(model) {
+        comparator: function (model) {
             return model.getName();
         },
 
-        getChildTopics: function(parentTopicName) {
+        getChildTopics: function (parentTopicName) {
 
             var result = new Backbone.Collection();
 
-            this.each(function(topic) {
+            this.each(function (topic) {
 
                 var topicName = topic.getName();
 
@@ -56,14 +56,19 @@ define([
     });
 
     //In order to avoid duplicated elements
-    TopicCollection.prototype.add = function(topic) {
-        var isDupe = this.any(function(_topic) {
+    TopicCollection.prototype.add = function (topic) {
+        
+        var isDupe = this.any(function (_topic) {
             return _topic.getName() === topic.getName();
         });
-        if (isDupe) return;
+        
+        if (isDupe) {
+            return;
+        }
+        
         Backbone.Collection.prototype.add.call(this, topic);
 
-    }
+    };
 
     return TopicCollection;
 

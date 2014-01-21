@@ -5,6 +5,7 @@ define([
     'templates'
 
 ], function (_, Backbone) {
+    'use strict';
 
     var AllStatsLayout = Backbone.Marionette.Layout.extend({
 

@@ -7,7 +7,8 @@ define([
     'typeahead',
     'parsley'
 
-], function($, _, Backbone, config) {
+], function ($, _, Backbone, config) {
+    'use strict';
 
     var CreateRawNotificationView = Backbone.Marionette.ItemView.extend({
 
@@ -17,7 +18,7 @@ define([
             'click #submit': 'createSubscription'
         },
 
-        createSubscription: function(e) {
+        createSubscription: function (e) {
 
             e.preventDefault();
 
@@ -25,23 +26,20 @@ define([
 
             $form.parsley();
 
-            if($form.parsley('isValid')) {
+            if ($form.parsley('isValid')) {
 
-                var topic = $form.find('#inputTopic').val();
-                var recipient = $form.find('#inputEmail').val();
-                var displayName = $form.find('#inputName').val();
-
-                var selectorType = this.model.getSelectorType();
-
-                var data = {
-                    topic: topic,
-                    recipient: recipient,
-                    displayName: displayName
-                };
+                var topic = $form.find('#inputTopic').val(),
+                    recipient = $form.find('#inputEmail').val(),
+                    displayName = $form.find('#inputName').val(),
+                    selectorType = this.model.getSelectorType(),
+                    data = {
+                        topic: topic,
+                        recipient: recipient,
+                        displayName: displayName
+                    },
+                    url = config.serverUrl + '/subscription.do?selector=' + selectorType;
 
                 data = JSON.stringify(data);
-
-                var url = config.serverUrl + '/subscription.do?selector=' + selectorType;
 
                 $.ajax({
                     type: 'PUT',
@@ -49,12 +47,12 @@ define([
                     url: url,
                     data: data
 
-                }).done(function() {
+                }).done(function () {
                     alert('Your subscription has been registered');
 
                     Backbone.history.navigate('#/subscriptions/' + selectorType, true);
 
-                }).fail(function() {
+                }).fail(function () {
                     alert('An issue occurred when saving the subscription');
                 });
 
@@ -66,22 +64,23 @@ define([
 
         },
 
-        clearForm: function() {
+        clearForm: function () {
 
             var inputs = this.$el.find('input');
 
-            _.each(inputs, function(input) {
+            _.each(inputs, function (input) {
                 $(input).val('');
             });
 
         },
 
-        onRender: function() {
+        onRender: function () {
 
-            var allTopics = new Array();
+            var allTopics = [],
+                i = 0;
 
-            for(var i = 0; i<5; i++) {
-                this.collection.each(function(topic){
+            for (i = 0; i < 5; i++) {
+                this.collection.each(function (topic) {
                     allTopics.push(topic.getParentLevel(i));
                 });
             }

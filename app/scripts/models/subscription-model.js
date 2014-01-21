@@ -16,19 +16,19 @@ define([
             selectorType: 'mongoDbSelector'
         },
 
-        getDisplayName: function() {
+        getDisplayName: function () {
             return this.get('displayName');
         },
 
-        getEmail: function() {
+        getEmail: function () {
             return this.get('email');
         },
 
-        getTopicName: function() {
+        getTopicName: function () {
             return this.get('topic');
         },
 
-        getSelectorType: function() {
+        getSelectorType: function () {
             return this.get('selectorType');
         }
 

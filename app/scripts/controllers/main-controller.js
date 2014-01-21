@@ -12,6 +12,7 @@ define([
     'collections/channel-collection',
     'collections/realNotification-collection',
     'collections/decoratedNotification-collection',
+    'collections/token-collection',
     'models/error-model',
     'models/selector-model',
     'views/error-view',
@@ -26,6 +27,7 @@ define([
     'views/real-notifications-composite-view',
     'views/real-notifications-collection-view',
     'views/decorated-notifications-composite-view',
+    'views/tokens-composite-view',
     'callbacks/show-stats-callback',
     'callbacks/show-charts-callback',
     'callbacks/get-counts-for-topic-callback',
@@ -36,7 +38,7 @@ define([
 ], function ($, _, Backbone, App, AllStatsLayout,
              CountModel, CountCollection,
              StatsForDateCollection, TopicCollection,
-             SelectorCollection, ChannelCollection, RealNotificationCollection, DecoratedNotificationCollection,
+             SelectorCollection, ChannelCollection, RealNotificationCollection, DecoratedNotificationCollection, TokenCollection,
              ErrorModel, SelectorModel, ErrorView,
              PieView, LineChartView,
              TopicSearchView, TopicsCompositeView, TopicStatsLayout,
@@ -44,14 +46,16 @@ define([
              SubscriptionsLayout, SelectorTabsCollectionView,
              RealNotificationCompositeView, RealNotificationsCollectionView,
              DecoratedNotificationCompositeView,
+             TokenCompositeView,
              showStatsCallback, showChartsCallback, getCountsForTopicCallback, getCountsForTopicAndDateCallback
     ) {
+    'use strict';
 
     var MainController = Backbone.Marionette.Controller.extend({
 
 
         //Functions associated to a route
-        stats: function() {
+        stats: function () {
 
             this.activateLink('stats');
 
@@ -67,7 +71,7 @@ define([
 
         },
 
-        createRawNotification: function() {
+        createRawNotification: function () {
 
             this.activateLink('new-raw');
 
@@ -85,18 +89,18 @@ define([
 
         },
 
-        subscriptions: function() {
+        subscriptions: function () {
 
             this.activateLink('subscriptions');
 
-            var subscriptionsLayout = new SubscriptionsLayout();
+            var subscriptionsLayout = new SubscriptionsLayout(),
+                selectors = new SelectorCollection();
 
             App.content.show(subscriptionsLayout);
 
-            var selectors = new SelectorCollection();
             selectors.fetch();
 
-            selectors.on('sync', function() {
+            selectors.on('sync', function () {
 
                 var selectorTabs = new SelectorTabsCollectionView({
                     collection: selectors
@@ -108,21 +112,20 @@ define([
 
         },
 
-        sentNotifications: function() {
+        sentNotifications: function () {
 
             this.activateLink('sent-notifications');
 
             var realNotifications = new RealNotificationCollection();
 
-            $.when(realNotifications.fetch()).done(function() {
+            $.when(realNotifications.fetch()).done(function () {
 
                 var realNotificationsListView = new RealNotificationCompositeView({
                     collection: realNotifications
-                });
-
-                var realNotificationsDetailsView = new RealNotificationsCollectionView({
-                    collection: realNotifications
-                });
+                }),
+                    realNotificationsDetailsView = new RealNotificationsCollectionView({
+                        collection: realNotifications
+                    });
 
                 App.content.show(realNotificationsListView);
 
@@ -132,13 +135,13 @@ define([
 
         },
 
-        decoratedNotifications: function() {
+        decoratedNotifications: function () {
 
             this.activateLink('decorated-notifications');
 
             var decoratedNotifications = new DecoratedNotificationCollection();
 
-            $.when(decoratedNotifications.fetch()).done(function() {
+            $.when(decoratedNotifications.fetch()).done(function () {
 
                 var decoratedNotificationsListView = new DecoratedNotificationCompositeView({
                     collection: decoratedNotifications
@@ -150,108 +153,115 @@ define([
 
         },
 
+        tokens: function() {
+
+            this.activateLink('tokens');
+
+            var tokens = new TokenCollection();
+
+            $.when(tokens.fetch()).done(function () {
+
+                var tokenCompositeView = new TokenCompositeView({
+                    collection: tokens
+                });
+
+                App.content.show(tokenCompositeView);
+
+            });
+
+        },
+
         //Other functions
-        showGlobalStatsAndCharts: function(layout) {
+        showGlobalStatsAndCharts: function (layout) {
 
-            var allRawNotifs = new CountModel().countAllRawNotifications();
-
-            var allDecoratedNotifs = new CountModel().countAllDecoratedNotifications();
-
-            var notProcessedRawNotifs = new CountModel().countNotProcessedRawNotifications();
-
-            var notSentDecoratedNotifs = new CountModel().countNotSentDecoratedNotifications();
-
-            var deletedDecoratedNotifs = new CountModel().countDeletedDecoratedNotifications();
-
-            var countCollection = new CountCollection(
-                [allRawNotifs, notProcessedRawNotifs,
-                    allDecoratedNotifs, notSentDecoratedNotifs,
-                    deletedDecoratedNotifs]
-            );
+            var allRawNotifs = new CountModel().countAllRawNotifications(),
+                allDecoratedNotifs = new CountModel().countAllDecoratedNotifications(),
+                notProcessedRawNotifs = new CountModel().countNotProcessedRawNotifications(),
+                notSentDecoratedNotifs = new CountModel().countNotSentDecoratedNotifications(),
+                deletedDecoratedNotifs = new CountModel().countDeletedDecoratedNotifications(),
+                countCollection = new CountCollection(
+                    [allRawNotifs, notProcessedRawNotifs,
+                        allDecoratedNotifs, notSentDecoratedNotifs,
+                        deletedDecoratedNotifs]
+                );
 
             $.when.apply($, countCollection.fetchAllModels())
                 .done(function () {
 
-                    var countProcessedNotifs = allRawNotifs.getCount() - notProcessedRawNotifs.getCount();
-
-                    var processedRawNotifs = new CountModel({
-                        count: countProcessedNotifs,
-                        objectName: 'Processed Raw Notifs'
-                    });
-
-                    var rawNotifsForChart = new CountCollection([processedRawNotifs, notProcessedRawNotifs]);
-
-                    var rawNotifsChartView = new PieView();
+                    var countProcessedNotifs = allRawNotifs.getCount() - notProcessedRawNotifs.getCount(),
+                        processedRawNotifs = new CountModel({
+                            count: countProcessedNotifs,
+                            objectName: 'Processed Raw Notifs'
+                        }),
+                        rawNotifsForChart = new CountCollection([processedRawNotifs, notProcessedRawNotifs]),
+                        rawNotifsChartView = new PieView(),
+                        countSentDecoratedNotifs = allDecoratedNotifs.getCount() - notSentDecoratedNotifs.getCount(),
+                        sentDecoratedNotifs = new CountModel({
+                            count: countSentDecoratedNotifs,
+                            objectName: 'Sent Decorated Notifs'
+                        }),
+                        decoratedNotifsForChart = new CountCollection([sentDecoratedNotifs, notSentDecoratedNotifs, deletedDecoratedNotifs]),
+                        decoratedNotifsChartView = new PieView();
+                    
                     rawNotifsChartView.drawPie(rawNotifsForChart, 'charts', 'Processed / Not Processed Raw Notifs');
 
-
-                    var countSentDecoratedNotifs = allDecoratedNotifs.getCount() - notSentDecoratedNotifs.getCount();
-
-                    var sentDecoratedNotifs = new CountModel({
-                        count: countSentDecoratedNotifs,
-                        objectName: 'Sent Decorated Notifs'
-                    });
-
-                    var decoratedNotifsForChart = new CountCollection([sentDecoratedNotifs, notSentDecoratedNotifs, deletedDecoratedNotifs]);
-                    var decoratedNotifsChartView = new PieView();
                     decoratedNotifsChartView.drawPie(decoratedNotifsForChart, 'charts2', 'Sent/Not Sent/Deleted Decorated Notifs');
 
-                    showStatsCallback(layout,'counts',countCollection);
+                    showStatsCallback(layout, 'counts', countCollection);
 
                 })
                 .fail(this.showErrorMessage);
 
         },
 
-        showErrorMessage: function() {
+        showErrorMessage: function () {
 
-            var errorModel = new ErrorModel();
+            var errorModel = new ErrorModel(),
+                errorView = new ErrorView({
+                    model: errorModel
+                });
+            
             errorModel.setMessage('The server is not available');
-
-            var errorView = new ErrorView({
-                model: errorModel
-            });
 
             App.content.show(errorView);
 
         },
 
-        showTimeChart: function() {
+        showTimeChart: function () {
 
-            var createdRowNotifsFor30days = new StatsForDateCollection().countCreatedRawNotifications();
-            var processedRowNotifsFor30days = new StatsForDateCollection().countProcessedRawNotifications();
-            var createdDecoratedNotifsFor30days = new StatsForDateCollection().countCreatedDecoratedNotifications();
-            var sentDecoratedNotifsFor30days = new StatsForDateCollection().countSentDecoratedNotifications();
+            var createdRowNotifsFor30days = new StatsForDateCollection().countCreatedRawNotifications(),
+                processedRowNotifsFor30days = new StatsForDateCollection().countProcessedRawNotifications(),
+                createdDecoratedNotifsFor30days = new StatsForDateCollection().countCreatedDecoratedNotifications(),
+                sentDecoratedNotifsFor30days = new StatsForDateCollection().countSentDecoratedNotifications();
 
             $.when(createdRowNotifsFor30days.fetch(),
                     processedRowNotifsFor30days.fetch(),
                     createdDecoratedNotifsFor30days.fetch(),
-                    sentDecoratedNotifsFor30days.fetch()
-                ).done(function() {
+                    sentDecoratedNotifsFor30days.fetch()).done(function () {
 
-                    var data = [createdRowNotifsFor30days, processedRowNotifsFor30days,
-                        createdDecoratedNotifsFor30days, sentDecoratedNotifsFor30days];
+                var data = [createdRowNotifsFor30days, processedRowNotifsFor30days,
+                    createdDecoratedNotifsFor30days, sentDecoratedNotifsFor30days],
+                    
+                    lineChartView = new LineChartView();
+                
+                lineChartView.drawLineChart(data, 'charts5', 'Stats for last 30 days');
 
-                    var lineChartView = new LineChartView();
-                    lineChartView.drawLineChart(data, 'charts5', 'Stats for last 30 days');
-
-                });
+            });
 
         },
 
-        showTopicsAndRepartition: function(layout) {
-            var topics = new TopicCollection();
+        showTopicsAndRepartition: function (layout) {
+            var topics = new TopicCollection(),
+                self = this;
+            
             topics.fetch();
-
-            var self = this;
 
             topics.on('sync', function () {
 
-                var mainTopics = topics.getMainTopicNames();
+                var mainTopics = topics.getMainTopicNames(),
+                    allRawNotifsFromTopics = new CountCollection();
 
-                var allRawNotifsFromTopics = new CountCollection();
-
-                _.each(mainTopics, function(topic) {
+                _.each(mainTopics, function (topic) {
 
                     var rawNotifs = new CountModel().countRawNotificationsForTopic(topic);
 
@@ -259,7 +269,7 @@ define([
 
                 });
 
-                $.when.apply($, allRawNotifsFromTopics.fetchAllModels()).done(function() {
+                $.when.apply($, allRawNotifsFromTopics.fetchAllModels()).done(function () {
 
                     var topicsPieChartView = new PieView();
                     topicsPieChartView.drawPie(allRawNotifsFromTopics, 'topics-repartition', 'Topics repartition');
@@ -270,41 +280,39 @@ define([
             });
         },
 
-        showTopicSearch: function(layout, topics) {
+        showTopicSearch: function (layout, topics) {
 
-            var topicStatsLayout = new TopicStatsLayout();
-
-            var topicSearchView = new TopicSearchView({
-                collection: topics
-            });
+            var topicStatsLayout = new TopicStatsLayout(),
+                topicSearchView = new TopicSearchView({
+                    collection: topics
+                }),
+                topicsCompositeView = new TopicsCompositeView({
+                    collection: topics
+                });
 
             layout.topicStats.show(topicStatsLayout);
 
             topicStatsLayout.search.show(topicSearchView);
 
-            var topicsCompositeView = new TopicsCompositeView({
-                collection: topics
-            });
-
             layout.topics.show(topicsCompositeView);
 
             // An event is triggered when the user clicks on "OK" new to topic-search
-            topicSearchView.on('topic-search:ok', function(args) {
+            topicSearchView.on('topic-search:ok', function (args) {
 
                 //args contains the view, its collection and its model
-                var view = args.view;
+                var view = args.view,
 
                 //we get the value of the input
-                var topic = view.$el.find('#topics-input').val();
+                    topic = view.$el.find('#topics-input').val();
 
                 //we get stats about this topic
-                getCountsForTopicCallback(topic, function(results) {
+                getCountsForTopicCallback(topic, function (results) {
 
                     showStatsCallback(topicStatsLayout, 'results', results);
                 });
 
                 //display charts from this topic
-                getCountsForTopicAndDateCallback(topic, function(collections){
+                getCountsForTopicAndDateCallback(topic, function (collections) {
 
                     showChartsCallback(topicStatsLayout, 'charts', collections);
                 });
@@ -313,15 +321,16 @@ define([
 
         },
 
-        activateLink: function(route) {
+        activateLink: function (route) {
 
-            var listElements = $.find('.nav li');
-            _.each(listElements, function(element) {
+            var listElements = $.find('.nav li'),
+                link = $.find('.nav a[href="#/' + route + '"]');
+            
+            _.each(listElements, function (element) {
                 $(element).removeClass('active');
             });
 
-            var link = $.find('.nav a[href="#/' + route + '"]');
-            $(link[0]).parent().slice(0,1).addClass('active');
+            $(link[0]).parent().slice(0, 1).addClass('active');
 
         }
 

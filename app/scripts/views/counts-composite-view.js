@@ -7,6 +7,7 @@ define([
 
 
 ], function (_, Backbone, CountItemView) {
+    'use strict';
 
     var CountsCompositeView = Backbone.Marionette.CompositeView.extend({
 

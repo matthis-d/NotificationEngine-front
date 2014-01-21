@@ -18,58 +18,57 @@ define([
             topicName: 'none'
         },
 
-        getCount: function() {
+        getCount: function () {
             return this.get('count');
         },
 
-        setCount: function(count) {
+        setCount: function (count) {
             this.set('count', count);
         },
 
-        getApiUrl: function() {
+        getApiUrl: function () {
             return config.serverUrl;
         },
 
-        setApiUrl: function(apiUrl) {
+        setApiUrl: function (apiUrl) {
             this.set('apiUrl', apiUrl);
         },
 
-        getTopicName: function() {
+        getTopicName: function () {
             return this.get('topicName');
         },
 
-        setTopicName: function(topicName) {
+        setTopicName: function (topicName) {
             this.set('topicName', topicName);
         },
 
-        getRequestType: function() {
+        getRequestType: function () {
             return this.get('requestType');
         },
 
-        setRequestType: function(requestType) {
+        setRequestType: function (requestType) {
             this.set('requestType', requestType);
         },
 
-        getObjectName: function() {
+        getObjectName: function () {
             return this.get('objectName');
         },
 
-        setObjectName: function(objectName) {
+        setObjectName: function (objectName) {
             this.set('objectName', objectName);
         },
 
-        getObjectAndCount: function() {
+        getObjectAndCount: function () {
 
-            var objectAndCount = new Array();
-
-            var topicName = this.getTopicName();
-
-            var globalName = this.getRequestType() + ' ';
-            if(topicName != 'none') {
+            var objectAndCount = [],
+                topicName = this.getTopicName(),
+                globalName = this.getRequestType() + ' ';
+            
+            if (topicName !== 'none') {
                 globalName += topicName + ' ';
 
             } else {
-                globalName+= this.getObjectName();
+                globalName += this.getObjectName();
             }
 
             objectAndCount.push(globalName);
@@ -79,7 +78,7 @@ define([
 
         },
 
-        countAllRawNotifications: function() {
+        countAllRawNotifications: function () {
 
             this.url = this.getApiUrl() + '/countAllRawNotifications.do';
 
@@ -91,7 +90,7 @@ define([
 
         },
 
-        countNotProcessedRawNotifications: function() {
+        countNotProcessedRawNotifications: function () {
 
             this.url = this.getApiUrl() + '/countNotProcessedRawNotifications.do';
 
@@ -103,7 +102,7 @@ define([
 
         },
 
-        countRawNotificationsForTopic: function(topic) {
+        countRawNotificationsForTopic: function (topic) {
 
             this.url = this.getApiUrl() + '/countRawNotificationsForTopic.do';
             this.url += '?topic=' + topic;
@@ -116,7 +115,7 @@ define([
 
         },
 
-        countNotProcessedRawNotificationsForTopic: function(topic) {
+        countNotProcessedRawNotificationsForTopic: function (topic) {
 
             this.url = this.getApiUrl() + '/countNotProcessedRawNotificationsForTopic.do';
             this.url += '?topic=' + topic;
@@ -129,7 +128,7 @@ define([
 
         },
 
-        countAllDecoratedNotifications: function() {
+        countAllDecoratedNotifications: function () {
 
             this.url = this.getApiUrl() + '/countAllDecoratedNotifications.do';
 
@@ -141,7 +140,7 @@ define([
 
         },
 
-        countNotSentDecoratedNotifications: function() {
+        countNotSentDecoratedNotifications: function () {
 
             this.url = this.getApiUrl() + '/countNotSentDecoratedNotifications.do';
 
@@ -152,7 +151,7 @@ define([
             return this;
         },
 
-        countDecoratedNotificationsForTopic: function(topic) {
+        countDecoratedNotificationsForTopic: function (topic) {
 
             this.url = this.getApiUrl() + '/countAllDecoratedNotificationsForTopic.do';
             this.url += '?topic=' + topic;
@@ -165,7 +164,7 @@ define([
 
         },
 
-        countNotSentDecoratedNotificationsForTopic: function(topic) {
+        countNotSentDecoratedNotificationsForTopic: function (topic) {
 
             this.url = this.getApiUrl() + '/countNotSentDecoratedNotifications.do';
             this.url += '?topic=' + topic;
@@ -178,7 +177,7 @@ define([
 
         },
 
-        countDeletedDecoratedNotifications: function() {
+        countDeletedDecoratedNotifications: function () {
 
             this.url = this.getApiUrl() + '/countDeletedDecoratedNotifications.do';
 
@@ -189,7 +188,7 @@ define([
             return this;
         },
 
-        countSubscriptionsForTopicAndSelector: function(topicName, selectorType) {
+        countSubscriptionsForTopicAndSelector: function (topicName, selectorType) {
 
             this.url = this.getApiUrl() + '/countAllSubscriptionsForTopic.do';
             this.url += '?topic=' + topicName;

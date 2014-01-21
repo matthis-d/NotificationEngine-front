@@ -16,7 +16,8 @@
     "typeahead.js-bootstrap.css": "*",
     "parsleyjs": "~1.1.17",
     "datatables": "~1.9.4",
-    "datatables-plugins": "*"
+    "datatables-plugins": "*",
+    "momentjs": "~2.5.0"
   },
   "devDependencies": {}
 }

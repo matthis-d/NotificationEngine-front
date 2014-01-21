@@ -14,11 +14,11 @@ define([
             topic: 'facturation'
         },
 
-        getSelectorType: function() {
+        getSelectorType: function () {
             return this.get('selectorType');
         },
 
-        getTopic: function() {
+        getTopic: function () {
             return this.get('topic');
         }
 

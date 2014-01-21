@@ -11,27 +11,25 @@ define([
             name: 'topicName'
         },
 
-        getName: function() {
+        getName: function () {
             return this.get('name');
         },
 
-        getLevels: function() {
-            var name = this.getName();
-            var levels = name.split('.');
+        getLevels: function () {
+            var name = this.getName(),
+                levels = name.split('.');
 
             return levels;
         },
 
-        getLevel: function(levelNumber) {
+        getLevel: function (levelNumber) {
 
-            var levels = this.getLevels();
+            var levels = this.getLevels(),
+                countSubTopics = levels.length,
+                result = levels[0];
 
-            var countSubTopics = levels.length;
-
-            var result = levels[0];
-
-            if(countSubTopics < levelNumber) {
-                result = levels[countSubTopics-1];
+            if (countSubTopics < levelNumber) {
+                result = levels[countSubTopics - 1];
 
             } else {
                 result = levels[levelNumber];
@@ -40,13 +38,15 @@ define([
             return result;
         },
 
-        getParentLevel: function(levelNumber) {
+        getParentLevel: function (levelNumber) {
 
-            var topics = new Array();
+            var topics = [],
+                i = 0,
+                result;
 
-            for(var i = 0; i<=levelNumber; i++) {
+            for (i = 0; i <= levelNumber; i++) {
                 
-                if(i <= this.getLevels().length){
+                if (i <= this.getLevels().length) {
 
                     topics.push(this.getLevel(i));
                 }
@@ -56,7 +56,7 @@ define([
             //This method is used to remove the undefined or '' values from the array
             topics = _.compact(topics);
 
-            var result = topics.join('.');
+            result = topics.join('.');
 
             return result;
 
