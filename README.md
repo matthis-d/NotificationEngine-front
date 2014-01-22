@@ -37,5 +37,5 @@ If you want to build files, which means concataining, minifying and uglifying so
 The sources generated are under ```dist``` folder.
 
 On the NotificationEngine, we added the ability to add the admin console sources in order to be able to run the project without have to create an other server instance.
-What you have to do is to copy the ```dist``` content in the folder ```admin-console``` at the root of the NotificationEngine project.
+What you have to do is to copy the ```dist``` content in the folder ```console-admin``` in ```src/main/webapp/WEB-INF``` of the NotificationEngine project.
 Then you just have to configure correctly the NotificationEngine's URL, to package the war and to deploy it on the Glassfish server.
